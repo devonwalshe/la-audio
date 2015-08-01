@@ -1,0 +1,31 @@
+= form_for(@author) do |f|
+  - if @author.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@author.errors.count, "error")
+        prohibited this author from being saved:
+      %ul
+        - @author.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :image_url
+    %br/
+    = f.text_area :image_url
+  .field
+    = f.label :bio_text
+    %br/
+    = f.text_area :bio_text
+  .field
+    = f.label :name
+    %br/
+    = f.text_area :name
+  .field
+    = f.label :job_title
+    %br/
+    = f.text_area :job_title
+  .field
+    = f.label :job_description
+    %br/
+    = f.text_area :job_description
+  .actions
+    = f.submit

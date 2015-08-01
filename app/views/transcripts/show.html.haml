@@ -1,0 +1,10 @@
+%p#notice= notice
+%p
+  %strong Body:
+  = @transcript.body
+%p
+  %strong Audio:
+  = @transcript.audio_id
+= link_to 'Edit', edit_transcript_path(@transcript)
+|
+= link_to 'Back', transcripts_path

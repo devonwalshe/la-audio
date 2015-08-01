@@ -1,0 +1,10 @@
+%p#notice= notice
+%p
+  %strong Start time:
+  = @timecode.start_time
+%p
+  %strong End time:
+  = @timecode.end_time
+= link_to 'Edit', edit_timecode_path(@timecode)
+|
+= link_to 'Back', timecodes_path

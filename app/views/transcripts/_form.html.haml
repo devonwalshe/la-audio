@@ -1,0 +1,19 @@
+= form_for(@transcript) do |f|
+  - if @transcript.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@transcript.errors.count, "error")
+        prohibited this transcript from being saved:
+      %ul
+        - @transcript.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :body
+    %br/
+    = f.text_area :body
+  .field
+    = f.label :audio_id
+    %br/
+    = f.number_field :audio_id
+  .actions
+    = f.submit

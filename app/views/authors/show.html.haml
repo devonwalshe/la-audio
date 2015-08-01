@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %strong Image url:
+  = @author.image_url
+%p
+  %strong Bio text:
+  = @author.bio_text
+%p
+  %strong Name:
+  = @author.name
+%p
+  %strong Job title:
+  = @author.job_title
+%p
+  %strong Job description:
+  = @author.job_description
+= link_to 'Edit', edit_author_path(@author)
+|
+= link_to 'Back', authors_path

@@ -1,0 +1,24 @@
+%p#notice= notice
+%h1 Listing Segments
+%table
+  %thead
+    %tr
+      %th Audio
+      %th Start time
+      %th End time
+      %th Name
+      %th Description
+      %th{colspan: "3"}
+  %tbody
+    - @segments.each do |segment|
+      %tr
+        %td= segment.audio_id
+        %td= segment.start_time
+        %td= segment.end_time
+        %td= segment.name
+        %td= segment.description
+        %td= link_to 'Show', segment
+        %td= link_to 'Edit', edit_segment_path(segment)
+        %td= link_to 'Destroy', segment, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Segment', new_segment_path

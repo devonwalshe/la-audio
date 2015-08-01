@@ -1,0 +1,31 @@
+= form_for(@segment) do |f|
+  - if @segment.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@segment.errors.count, "error")
+        prohibited this segment from being saved:
+      %ul
+        - @segment.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :audio_id
+    %br/
+    = f.text_field :audio_id
+  .field
+    = f.label :start_time
+    %br/
+    = f.time_select :start_time
+  .field
+    = f.label :end_time
+    %br/
+    = f.time_select :end_time
+  .field
+    = f.label :name
+    %br/
+    = f.text_area :name
+  .field
+    = f.label :description
+    %br/
+    = f.text_area :description
+  .actions
+    = f.submit

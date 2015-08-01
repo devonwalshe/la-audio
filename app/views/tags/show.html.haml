@@ -1,0 +1,10 @@
+%p#notice= notice
+%p
+  %strong Name:
+  = @tag.name
+%p
+  %strong Type:
+  = @tag.type
+= link_to 'Edit', edit_tag_path(@tag)
+|
+= link_to 'Back', tags_path

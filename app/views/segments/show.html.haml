@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %strong Audio:
+  = @segment.audio_id
+%p
+  %strong Start time:
+  = @segment.start_time
+%p
+  %strong End time:
+  = @segment.end_time
+%p
+  %strong Name:
+  = @segment.name
+%p
+  %strong Description:
+  = @segment.description
+= link_to 'Edit', edit_segment_path(@segment)
+|
+= link_to 'Back', segments_path

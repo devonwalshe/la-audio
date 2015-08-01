@@ -1,0 +1,24 @@
+%p#notice= notice
+%h1 Listing Authors
+%table
+  %thead
+    %tr
+      %th Image url
+      %th Bio text
+      %th Name
+      %th Job title
+      %th Job description
+      %th{colspan: "3"}
+  %tbody
+    - @authors.each do |author|
+      %tr
+        %td= author.image_url
+        %td= author.bio_text
+        %td= author.name
+        %td= author.job_title
+        %td= author.job_description
+        %td= link_to 'Show', author
+        %td= link_to 'Edit', edit_author_path(author)
+        %td= link_to 'Destroy', author, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Author', new_author_path
