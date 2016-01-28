@@ -7,5 +7,9 @@
       %ul
         - @recording.errors.full_messages.each do |message|
           %li= message
+          
+ 
+  = f.file_field :file
+
   .actions
     = f.submit

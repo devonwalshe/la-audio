@@ -27,9 +27,11 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 ## House Gems ##
 
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk', '< 2.0'
 gem 'haml'
-
+gem 'rubyzip'
+gem 'pg_search'
+gem 'audio_waveform-ruby', :require => 'audio_waveform'
 
 
 group :development, :test do

@@ -5,3 +5,17 @@ class AuthorTest < ActiveSupport::TestCase
   #   assert true
   # end
 end
+
+# == Schema Information
+#
+# Table name: authors
+#
+#  id              :integer          not null, primary key
+#  image_url       :text
+#  bio_text        :text
+#  name            :text
+#  job_title       :text
+#  job_description :text
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#

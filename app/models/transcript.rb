@@ -16,3 +16,14 @@ class Transcript < ActiveRecord::Base
   ### Instance Methods
   
 end
+
+# == Schema Information
+#
+# Table name: transcripts
+#
+#  id         :integer          not null, primary key
+#  body       :text
+#  audio_id   :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#

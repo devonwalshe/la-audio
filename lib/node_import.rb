@@ -1,0 +1,137 @@
+# encoding: utf-8
+## Node file importer
+## Takes an uploaded zipfile of node information and parses them
+## Folder structure inside the zip be seperated into /nodes/subnodes and /nodes/headnodes
+## Files are saved locally then read
+
+module NodeImport
+  
+  ## Get the list of paths inside the directory
+  def get_filepaths(target_dir)
+    dirpaths = [target_dir + "/subnodes", target_dir + "/headnodes"]
+    filepaths = []
+    dirpaths.each do |dirpath|
+      Dir[dirpath+"/*"].each do |filepath|
+        filepaths << filepath
+      end
+    end
+    return filepaths
+  end
+
+  ## parse file and read relevant information from it
+  def get_node_from_file(filepath)
+    head_nodes_file = File.open(filepath,"r:UTF-16LE:UTF-8"){ |file| file.readlines }
+    lines_array = []
+    head_nodes_file.each do | line, i |
+      lines_array << line
+    end
+    if /(\\\\)(.*)(\\)(.*)$/.match(head_nodes_file[0]) == nil
+      node_type = "head"
+    else
+      node_type = "child"
+    end
+  
+    ## get relevant nodes based on what type it is
+    if node_type == "head"
+      head_nodes_file[0] == nil ? head_node = nil : head_node = /(\\\\)(.*)/.match(head_nodes_file[0])[2].strip()
+      child_node = nil
+    elsif node_type == "child"
+      head_nodes_file[0] == nil ? head_node = nil : head_node = /(\\\\)(.*)(\\)(.*)$/.match(head_nodes_file[0])[2].strip()
+      head_nodes_file[0] == nil ? child_node = nil : child_node = /(\\\\)(.*)(\\)(.*)$/.match(head_nodes_file[0])[4].strip()
+    end
+  
+    ## get file name and reference number from line 2
+    head_nodes_file[2] == nil ? references = nil : references = /(§ )(\d)/.match(head_nodes_file[2])[2].to_i
+    ## Get all references from in 3 line blocks
+    ref_array = []
+  
+    ### get the segment times from each reference
+    if references != nil
+      references.times do |i|
+        ref = i+1
+        seg_line = 6+(i*4)
+        # puts seg_line
+        start_time =  /(\[)(\d+:\d+,\d)/.match(head_nodes_file[seg_line])[2].gsub(",", ".")
+        end_time = /(\d+:\d+,\d)(\])/.match(head_nodes_file[seg_line])[1].gsub(",", ".")
+        ref_array << {"start_time": start_time, "end_time": end_time}
+      end
+    else
+      ref_array = nil
+    end
+  
+    return {"filename": /^(.+)\/([^\/]+)$/.match(filepath)[2], "head_node": head_node, "child_node": child_node, "segments": ref_array}
+  
+  end
+  
+  ## Get all nodes from the supplied filepaths
+  def get_nodes(filepaths)
+    nodes = []
+    filepaths.each do |filepath|
+      node = get_node_from_file(filepath)
+      nodes << node
+    end
+    return nodes
+  end
+
+  ### Ties it all together and saves the relevant objects to the database
+  def unpack_and_process_zip(zip_file)
+    Zip::File.open(zip_file) do |zipfile|
+      @zipfile = zipfile
+      folder_name = Time.now.strftime('%Y_%m_%d-%H_%M_%S')
+      destination_dir = Rails.root.to_s + "/public/uploads/zips/" + "#{folder_name}"
+
+      # Save files in directory
+      zipfile.each do |entry|
+        if /^[^_].*\/.*\/.*\.txt/.match(entry.name) != nil
+          puts "Extracting #{entry.name}"
+          f_path = File.join(destination_dir, entry.name)
+          FileUtils.mkdir_p(File.dirname(f_path))
+          zipfile.extract(entry, f_path) unless File.exist?(f_path)
+        end
+      end
+      
+      # Get nodes from files
+      target_dir = File.join(destination_dir, "nodes")
+      filepaths = get_filepaths(target_dir)
+      @nodes = get_nodes(filepaths)
+      
+      # Save nodes
+      # @recording = Recording.find(params[:id])
+      @nodes.each do |tag|
+        @tag = Tag.new
+        @tagging = Tagging.new
+        
+        ## First Create the tags
+        if tag[:child_node] == nil
+          ## Its a parent tag
+          @tag.name = tag[:head_node]
+          @tag = Tag.where(:name => @tag.name, :tag_type => "parent_tag").first_or_create
+          
+        else
+          parent_tag_name = tag[:head_node]
+          @parent = Tag.where(:name => parent_tag_name, :tag_type => "parent_tag").first_or_create
+          @tag.name = tag[:child_node]
+          @tag = Tag.where(:name => @tag.name, :tag_type => "child_tag", :parent_id => @parent.id).first_or_create
+        end
+        
+        ## Now do the tagging
+        @tagging = Tagging.where(:taggable_id => @recording.id, :taggable_type => @recording.class.name, :tag_id => @tag.id).first_or_create
+
+        ## Now do the segments
+        if tag[:segments]
+          @segments = tag[:segments]
+          @segments.each do |segment|
+            start_time = segment[:start_time]
+            end_time = segment[:end_time]
+            @segment = Segment.where(:recording_id => @recording.id, :start_time => start_time, :end_time => end_time, :name => @tag.name).first_or_create
+          
+            ## Tagging for segment
+            @tagging = Tagging.where(:taggable_id=> @segment.id, :taggable_type=> @segment.class.name, :tag_id => @tag.id).first_or_create
+          end
+        end
+        
+      end
+    end
+  end
+
+end

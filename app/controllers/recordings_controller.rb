@@ -1,4 +1,8 @@
 class RecordingsController < ApplicationController
+  include NodeImport
+  require 'zip'
+  require 'fileutils'
+  
   before_action :set_recording, only: [:show, :edit, :update, :destroy]
 
   # GET /recordings
@@ -15,6 +19,22 @@ class RecordingsController < ApplicationController
   # GET /recordings/new
   def new
     @recording = Recording.new
+  end
+
+  def upload_tags
+    @recording = params[:id]
+  end
+  
+  def process_tags
+    @recording = Recording.find(params[:id])
+    uploaded_zip = params[:file].tempfile
+    puts uploaded_zip
+    ## Open uploaded zip and process - module in /lib/node_import.rb
+    ## Saves everything as well
+    unpack_and_process_zip(uploaded_zip)
+    
+    redirect_to @recording
+    
   end
 
   # GET /recordings/1/edit
@@ -69,6 +89,6 @@ class RecordingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recording_params
-      params[:recording]
+      params[:recording].permit(:file, :bio_text, :name, :job_title, :job_description)
     end
 end

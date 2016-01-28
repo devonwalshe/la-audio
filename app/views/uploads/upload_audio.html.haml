@@ -1,0 +1,8 @@
+%h1
+  Upload Audio File
+
+=form_tag("/upload_audio", method: "post") do 
+  = label_tag(:folder, "directory of input")
+  = file_field_tag(:folder)
+  = submit_tag("submit")
+  

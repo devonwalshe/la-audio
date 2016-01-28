@@ -1,0 +1,26 @@
+%h1 Search
+=form_tag("/search", method: "get") do
+  =search_field_tag :q
+  =submit_tag "Search"
+  
+-if @results
+  %h3 Results!
+  
+  -@results.each do |result|
+    %div{:style => "border-bottom:1px solid #aaa;margin-top:15px"}
+    %h4
+      =link_to result.name, result
+    %h5 Tags
+    =result.tags.collect{|t| t.name}.join(", ")
+    
+    
+    %h5 Segments
+    =result.segments.count.to_s + " Segments"
+    %div{:style => "border-bottom:1px solid #aaa;margin-top:15px"}
+-else
+  %p
+    No Results!
+      
+
+      
+  

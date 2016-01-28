@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150801214546) do
+ActiveRecord::Schema.define(version: 20160128155742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 20150801214546) do
     t.datetime "updated_at",      null: false
   end
 
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text     "content"
+    t.integer  "searchable_id"
+    t.string   "searchable_type"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "pg_search_documents", ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id", using: :btree
+
   create_table "recordings", force: :cascade do |t|
     t.integer  "author_id"
     t.integer  "transcript_id"
@@ -38,16 +48,17 @@ ActiveRecord::Schema.define(version: 20150801214546) do
     t.string   "file_content_type"
     t.integer  "file_file_size"
     t.datetime "file_updated_at"
+    t.string   "name"
   end
 
   create_table "segments", force: :cascade do |t|
-    t.integer  "audio_id"
-    t.time     "start_time"
-    t.time     "end_time"
+    t.integer  "recording_id"
+    t.string   "start_time"
+    t.string   "end_time"
     t.text     "name"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -65,6 +76,7 @@ ActiveRecord::Schema.define(version: 20150801214546) do
     t.text     "tag_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "parent_id"
   end
 
   create_table "timecodes", force: :cascade do |t|

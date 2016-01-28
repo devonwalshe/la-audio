@@ -1,0 +1,23 @@
+/ =params
+/ -@dir.each do |dir|
+/   =dir
+/   %br
+/ /
+/ =@filepaths
+/
+/ =@nodes
+/
+/ -@txt_files.each do |file|
+/   =file.name
+/   %br
+
+/ -@content.lines do |line|
+/  =line
+/  %br
+=@zipfile.name
+=@recording
+=@nodes
+/ -@nodes.each do |node|
+/   =node
+/   %br
+/

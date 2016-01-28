@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   
+  get 'search/search'
+
   resources :recordings
   resources :segments
   resources :tags
@@ -9,8 +11,15 @@ Rails.application.routes.draw do
   ## Transcripts
   resources :transcripts
   
+  ## Page for uploading tags for a recording
+  get '/recordings/:id/upload_tags' => 'recordings#upload_tags', as: :tag_upload_path
+  post '/recordings/:id/upload_tags' => 'recordings#process_tags', as: :tag_process_path
   
-
+  ## Search routes
+  get '/search' => 'search#index'
+   
+  
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

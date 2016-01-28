@@ -1,0 +1,6 @@
+%h2
+  Upload Tags For Recording
+  
+=form_tag({action: :process_tags}, multipart: true )do
+  =file_field_tag :file
+  =submit_tag

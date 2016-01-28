@@ -7,6 +7,7 @@
   %tbody
     - @recordings.each do |recording|
       %tr
+        %td= link_to recording.name, recording
         %td= link_to 'Show', recording
         %td= link_to 'Edit', edit_recording_path(recording)
         %td= link_to 'Destroy', recording, method: :delete, data: { confirm: 'Are you sure?' }
