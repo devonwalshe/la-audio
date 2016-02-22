@@ -3,12 +3,15 @@ class Recording < ActiveRecord::Base
   pg_search_scope :search_tags, :associated_against => {
     :tags => :name
   }
+  pg_search_scope :search_tags, :associated_against => {
+    :tags => :name
+  }
   
   
   ### Model Definition
   
   ### Associations
-  has_one :author
+  belongs_to :author
   has_one	:timecode
   has_many	:segments
   has_one	:transcript
@@ -29,7 +32,7 @@ class Recording < ActiveRecord::Base
   ### Paperclip
   has_attached_file :file, 
                     :default_url => "/recordings/:style/missing.png",
-                    :path => ":id/:filename",
+                    :path => "/recordings/:id/:filename",
                     :whiny => true,
                     :storage => :s3,
                     :s3_credentials => {

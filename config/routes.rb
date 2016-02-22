@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   
   ## Search routes
   get '/search' => 'search#index'
+  
+  ## Home statics
+  get '/about' => 'home#about'
+  get '/contact' => 'home#contact'
    
   
   

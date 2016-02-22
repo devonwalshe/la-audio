@@ -1,24 +1,62 @@
-%p#notice= notice
-%h1 Listing Authors
-%table
-  %thead
-    %tr
-      %th Image url
-      %th Bio text
-      %th Name
-      %th Job title
-      %th Job description
-      %th{colspan: "3"}
-  %tbody
-    - @authors.each do |author|
-      %tr
-        %td= author.image_url
-        %td= author.bio_text
-        %td= author.name
-        %td= author.job_title
-        %td= author.job_description
-        %td= link_to 'Show', author
-        %td= link_to 'Edit', edit_author_path(author)
-        %td= link_to 'Destroy', author, method: :delete, data: { confirm: 'Are you sure?' }
-%br/
-= link_to 'New Author', new_author_path
+/ First row with header
+.container-fluid.bgblack.twhite
+  .row
+    .container
+      %p#notice= notice
+      =render :partial => "layouts/header", locals: {divider: false}
+.container-fluid.bglightgrey.tgrey
+  .row
+    .container
+      .col-md-1
+      .col-md-9
+        .t6em.tw700.adelle.top-fifty-margin
+          Authors
+        .t1-6em.tw500.top-fifty-margin
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua.
+        .top-fifty-margin
+          -if @authors
+            - @authors.each do |author|
+              .row
+                .top-twenty-margin
+                .col-md-4
+                  =image_tag "authors/author1.png", :class=>"author-image"
+                .col-md-8
+                  =link_to author.name, author, :class=>"lorange tw800 t1-4em adelle"
+                  .titalic.top-five-margin.tgrey
+                    =author.job_title
+                  .top-ten-margin.tgrey
+                    =author.bio_text
+                  .top-ten-margin
+                    =link_to "Read more here...", author, :class=>"lgrey"
+                  .top-ten-margin.tgrey
+                    %span.titalic.right-five-margin
+                      Tags:
+                    -author.tags[0..4].each_with_index do |tag, i|
+                      %span.lgrey.tw800.adelle
+                        =link_to(tag.name, "/search?q=#{tag.name}", :class=>"lgrey") + (i == 4 ? "+ " + (author.tags.count-4).to_s + " more..." : ", ")
+.container-fluid.bgblack
+  =render :partial => "layouts/footer"
+
+/ .container-fluid.bglightgrey.tgrey
+/   .row
+/     .container
+/       .row.top-fifty-margin
+/         -if @recordings
+/           - @recordings.each do |recording|
+/             .col-md-3
+/
+/               / Todo - make three different row types w/ partials if i recording is between multiples of 1 to 3
+/               =link_to recording, :class=>"lwhite" do
+/                 .recording-box.bgblack
+/                   .box-upper
+/                     .mic
+/                   %br
+/                   .box-lower
+/                     -if recording.name
+/                       .adelle.tw800.t1-6em.box-title
+/                         =recording.name
+/                     -else
+/                       .adelle.tw800.t1-6em.box-title
+/                         Untitled recording
+/       .row.top-hundred-margin

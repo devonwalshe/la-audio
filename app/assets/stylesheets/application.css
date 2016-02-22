@@ -13,3 +13,108 @@
  *= require_tree .
  *= require_self
  */
+
+body{
+  margin: 0px;
+  padding: 0px;
+}
+
+.bgorange{
+  background-color:rgb(237, 116, 25);
+}
+
+.bglightgrey{
+  background-color:#eee;
+}
+
+.tgrey{
+  color:#555;
+}
+
+.torange{
+  color:rgb(237, 116, 25);
+}
+
+a.lorange {
+  font-weight:bold;
+  color:rgb(237, 116, 25);
+}
+
+a.lgrey {
+  font-weight:bold;
+  color:#555;
+}
+
+.submit-grey{
+  padding:10px 30%;
+  background-color:#555;
+  font-size:1em;
+  border:none;
+  color:#fff;
+  font-size:1.2em;
+}
+
+.adelle{
+  font-family: "adelle";
+}
+
+.sans{
+  font-family:sans-serif;
+}
+
+.divider{
+  border-bottom: 2px solid #bbb;
+}
+
+.float-left{
+  float:left;
+}
+
+.float-right{
+  float:right;
+}
+
+.nav-link{
+  font-size:1.5em;
+  margin-left:15px;
+}
+
+.logo{
+  height:120px;
+  width:240px;
+  display:block;
+  background-image: url('/assets/la_logo.png');
+  background-size: 240px 120px;
+}
+
+.recording-box{
+  height:225px;
+  padding:20px;
+}
+
+.box-upper{
+  height:15%;
+  display:table-cell;
+  vertical-align:top;
+  clear:both;
+}
+.box-lower{
+  height:130px;
+  display:table-cell;
+  vertical-align:bottom;
+}
+
+.box-title{
+  
+}
+
+.mic{
+  background-image: url('/assets/la_mic.png');
+  width:25px;
+  height:35px;
+  background-size: 25px 40px;
+}
+
+.author-image{
+  width:100%;
+}
