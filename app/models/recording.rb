@@ -3,9 +3,9 @@ class Recording < ActiveRecord::Base
   pg_search_scope :search_tags, :associated_against => {
     :tags => :name
   }
-  pg_search_scope :search_tags, :associated_against => {
-    :tags => :name
-  }
+  # pg_search_scope :search_tags, :associated_against => {
+  #   :tags => :name
+  # }
   
   
   ### Model Definition

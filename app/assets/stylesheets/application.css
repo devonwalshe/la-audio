@@ -83,7 +83,7 @@ a.lgrey {
   height:120px;
   width:240px;
   display:block;
-  background-image: url('/assets/la_logo.png');
+  background-image: url('assets/la_logo.png');
   background-size: 240px 120px;
 }
 
@@ -109,7 +109,7 @@ a.lgrey {
 }
 
 .mic{
-  background-image: url('/assets/la_mic.png');
+  background-image: url('assets/la_mic.png');
   width:25px;
   height:35px;
   background-size: 25px 40px;
