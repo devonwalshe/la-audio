@@ -4,7 +4,7 @@ class SearchController < ApplicationController
   def index
     @search = ""
     query  = params[:q]
-    @results = Recording.search_tags(query)
+    @results = PgSearch.multisearch(query)
   end
   
 end

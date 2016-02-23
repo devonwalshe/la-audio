@@ -2,12 +2,10 @@ class Tag < ActiveRecord::Base
   ### Model Definition
   
   ### Associations
-  
   has_many  :taggings
-  
   has_many :children, class_name: "Tag", foreign_key: "parent_id"
-
   belongs_to :parent, class_name: "Tag"
+  
   ### Validations
   
   ### Callbacks

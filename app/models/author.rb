@@ -1,9 +1,17 @@
 class Author < ActiveRecord::Base
+  ### Search declarations
+  include PgSearch
+  #Scope search
+  pg_search_scope :search_tags, :associated_against => {
+    :tags => :name
+  }
+  #Multisearch
+  multisearchable :against => [:name, :bio_text, :job_title, :job_description]
+  
   
   ### Model Definition
   
   ### Associations
-  
   has_many	:recordings
   has_many  :taggings, :as => :taggable
             

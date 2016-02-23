@@ -1,19 +1,18 @@
 class Recording < ActiveRecord::Base
   include PgSearch
+  #Scope search
   pg_search_scope :search_tags, :associated_against => {
     :tags => :name
   }
-  # pg_search_scope :search_tags, :associated_against => {
-  #   :tags => :name
-  # }
-  
-  
+  #Multisearch
+  multisearchable :against => [:name, :cached_tags, :description]
+
   ### Model Definition
   
   ### Associations
   belongs_to :author
-  has_one	:timecode
-  has_many	:segments
+  has_one :timecode
+  has_many  :segments
   has_one	:transcript
   
   has_many  :taggings, :as => :taggable
@@ -23,6 +22,7 @@ class Recording < ActiveRecord::Base
   ### Validations
   
   ### Callbacks
+  before_save :cache_tags
   
   ### Instance Methods
   def tags_string
@@ -40,9 +40,17 @@ class Recording < ActiveRecord::Base
                                         :access_key_id => 'AKIAIPD7A7XBPDOZRZJA',
                                         :secret_access_key => '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'  
                                         }         
-                    
+
   validates_attachment_presence :file
   validates_attachment_content_type :file, :content_type => [/\Aaudio\/.*\Z/, /\Aapplication\/.*\Z/]  
+  
+  private
+  
+  def cache_tags
+    @tags_string = tags_string
+    self.cached_tags = @tags_string
+  end  
+  
 end
 
 # == Schema Information

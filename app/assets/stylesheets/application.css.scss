@@ -87,10 +87,30 @@ a.lgrey {
   background-size: 240px 120px;
 }
 
+.results-box{
+  height:170px;
+  padding:20px;
+}
+
+.results-box-lower{
+  height:90px;
+  display:table-cell;
+  vertical-align:bottom;
+}
+
+.results-box-upper{
+  height:15%;
+  display:table-cell;
+  vertical-align:top;
+  clear:both;
+}
+
+
 .recording-box{
   height:225px;
   padding:20px;
 }
+
 
 .box-upper{
   height:15%;
@@ -98,6 +118,8 @@ a.lgrey {
   vertical-align:top;
   clear:both;
 }
+
+
 .box-lower{
   height:130px;
   display:table-cell;

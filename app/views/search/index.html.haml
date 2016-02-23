@@ -1,25 +1,35 @@
-%h1 Search
-=form_tag("/search", method: "get") do
-  =search_field_tag :q
-  =submit_tag "Search"
-  
--if @results
-  %h3 Results!
-  
-  -@results.each do |result|
-    %div{:style => "border-bottom:1px solid #aaa;margin-top:15px"}
-    %h4
-      =link_to result.name, result
-    %h5 Tags
-    =result.tags.collect{|t| t.name}.join(", ")
-    
-    
-    %h5 Segments
-    =result.segments.count.to_s + " Segments"
-    %div{:style => "border-bottom:1px solid #aaa;margin-top:15px"}
--else
-  %p
-    No Results!
+.container-fluid.bgblack.twhite
+  .row
+    .container
+      %p#notice= notice
+      =render :partial => "layouts/header", locals: {divider: false}
+.container-fluid.bglightgrey.tgrey
+  .row
+    .container
+      .row
+        .col-md-1
+        .col-md-9
+          .top-twenty-margin
+            .t3em.adelle.tw800.torange
+              Search results
+        
+          / Results block
+          .row
+            .top-twenty-margin
+              -if @results.count > 0
+                -@results.each do |result|
+                  -if result.searchable_type == "Author"
+                    =render :partial => "/search/author_result", locals: {result: result}
+                  -elsif result.searchable_type == "Recording"
+                    =render partial: "/search/recording_result", locals: {result: result}
+                  -else
+                    / =result.inspect
+              
+              -else
+                .t3em.adelle.tw800
+                  No Results!
+      .row.top-fifty-margin
+      
 .container-fluid.bgblack
   =render :partial => "layouts/footer"      
 

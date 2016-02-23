@@ -1,0 +1,14 @@
+.col-md-3
+  -result = result.searchable
+  =link_to result.name, :class=>"lwhite" do
+    .results-box.bgblack
+      .results-box-upper.adelle.tw800
+        Recording
+      %br
+      .results-box-lower
+        -if result.name
+          .adelle.tw800.t1-6em.box-title
+            =result.name
+        -else
+          .adelle.tw800.t1-6em.box-title
+            Untitled
