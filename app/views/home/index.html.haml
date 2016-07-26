@@ -1,8 +1,7 @@
 / First row with header
-.container-fluid.bgblack.twhite
+.container-fluid.twhite.bgblue
   .row
     .container
-      =render :partial => "layouts/header", locals: {divider: true}
       .row.top-fifty-margin
         .col-md-1
         .col-md-9
@@ -11,8 +10,7 @@
           .t4em.top-ten-margin.adelle
             Welcome to Life Academique
           .t2em.top-seventy-margin.sans.lh1-5em.tw300
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua.
+            Welcome to Life Academique – inspiration and information for women in academia from women academics who’ve been there before.
         .col-md-1
       .row.top-hundred-margin
 
@@ -33,7 +31,7 @@
       .row.top-hundred-margin
       
 / Third Row what to expect
-.container-fluid.bgorange.twhite      
+.container-fluid.bgblue.twhite      
   .row
     .container
       .row.top-hundred-margin
@@ -41,74 +39,16 @@
         .col-md-10
           .t2em.adelle.tw600
             What to expect.
-          .t2em.top-twenty-margin.lh1-3em.tw300
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
+          .t1-6em.top-twenty-margin.lh1-3em.tw300
+            So you know that working in academia has its very own joys and challenges. And you know that being a woman in academia adds some extra challenges. And you’d like to make academia work for you, your aspirations, your strengths, your personality, your life.
+            You’re not alone. Life Academique introduces you to woman academics who have been there too. In Life Academique these women talk about their working lives, hopes and dreams, successes and failures, principles and practicalities. Their stories will spark ideas for your own career and provide useful tips.
+            %br
+            %br
+            You can listen to each woman’s story by selecting a podcast or you can hear different women’s take on a topic that interest you by using the search or tag feature.
         .col-md-1
       .row.top-hundred-margin
 
-/ Row 4 Get in touch
-.container-fluid.bglightgrey.tgrey
-  .row
-    .container
-      .row.top-fifty-margin
-        .col-md-1
-        .col-md-6
-          .t2em.adelle.tw800
-            Get in touch with us:
-          .top-twenty-margin
-            =form_tag("/search", method: "get", ) do
-              .form-group.row
-                .col-md-6
-                  =text_field_tag :name, params[:name], class: "form-control input-lg", :placeholder => "Enter your name", :type=>"text"
-                .col-md-6
-                  =text_field_tag :email, params[:email], class: "form-control input-lg", :placeholder => "Enter your email", :type=>"text"
-              .form-group.row
-                .col-md-12
-                  =text_area_tag :email, params[:email], class: "form-control input-lg", :placeholder => "Enter your email", :type=>"text", :rows=>6
-              .form-group.row
-                .col-md-4
-                  =submit_tag("SUBMIT", :class=>"submit-grey box-shadow")
-                .col-md-8
-                  .t1-6em.torange.adelle.top-twenty-margin.tw800
-                    Thanks, we'll be in touch soon. 
-        .col-md-1
-        .col-md-4
-          .row
-            .col-md-12
-              .t2em.adelle.tw800
-                About Life Academique
-          .row
-            .col-md-12.top-twenty-margin.t1-2em
-              Life Academique was Lorem ipsum dolor sit amet,
-              consectetur adipiscing elit, sed do eiusmod.
-          .row
-            .col-md-12.top-twenty-margin.t1-2em
-              This project was funded by ipsum dolor sit amet,
-              consectetur adipiscing elit.
-          .row
-            .col-md-3.adelle.tw600.top-twenty-margin
-              Address
-            .col-md-9.top-twenty-margin
-              Somewhere near Leicester 
-              %br
-              University LE C1S
-          .row
-            .col-md-3.adelle.tw600
-              Phone
-            .col-md-9
-              01851 870 287
-          .row
-            .col-md-3.adelle.tw600
-              Fax
-            .col-md-9
-              01851 870 991
-          .row
-            .col-md-3.adelle.tw600
-              Email
-            .col-md-9
-              =link_to "doris@lifeacademique.com", "mailto:doris@lifeacademique.com"
-.container-fluid.bgblack
-  =render :partial => "layouts/footer"
+=render :partial => "layouts/get_in_touch"
 / %h2
 /   =link_to "Upload an audio file", new_recording_path
 /

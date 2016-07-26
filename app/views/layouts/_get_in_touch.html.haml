@@ -1,0 +1,59 @@
+/ Row 4 Get in touch
+.container-fluid.bglightgrey.tgrey
+  .row
+    .container
+      .row.top-fifty-margin
+        .col-md-1
+        .col-md-6
+          .t2em.adelle.tw800
+            Get in touch with us:
+          .top-twenty-margin
+            =form_tag("/search", method: "get", ) do
+              .form-group.row
+                .col-md-6
+                  =text_field_tag :name, params[:name], class: "form-control input-lg", :placeholder => "Enter your name", :type=>"text"
+                .col-md-6
+                  =text_field_tag :email, params[:email], class: "form-control input-lg", :placeholder => "Enter your email", :type=>"text"
+              .form-group.row
+                .col-md-12
+                  =text_area_tag :email, params[:email], class: "form-control input-lg", :placeholder => "Enter your email", :type=>"text", :rows=>6
+              .form-group.row
+                .col-md-4
+                  =submit_tag("SUBMIT", :class=>"submit-grey box-shadow")
+                .col-md-8
+                  .t1-6em.tblue.adelle.top-twenty-margin.tw800
+                    Thanks, we'll be in touch soon. 
+        .col-md-1
+        .col-md-4
+          .row
+            .col-md-12
+              .t2em.adelle.tw800
+                About Life Academique
+          .row
+            .col-md-3.adelle.tw600.top-twenty-margin
+              Address
+            .col-md-9.top-twenty-margin
+              Life Academique
+              %br
+              c/o Dr Doris Ruth Eikhof 
+              %br
+              University of Leicester School of Business 
+              %br
+              University Road, Leicester
+              %br
+              UK LE1 7RH
+          .row
+            .col-md-3.adelle.tw600
+              Phone
+            .col-md-9
+              01851 870 287
+          .row
+            .col-md-3.adelle.tw600
+              Fax
+            .col-md-9
+              01851 870 991
+          .row
+            .col-md-3.adelle.tw600
+              Email
+            .col-md-9
+              =link_to "d.r.eikhof@leicester.ac.uk", "d.r.eikhof@leicester.ac.uk"

@@ -89,6 +89,6 @@ class RecordingsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def recording_params
-      params[:recording].permit(:file, :bio_text, :name, :job_title, :job_description)
+      params[:recording].permit(:file, :bio_text, :name, :job_title, :job_description, :author_id)
     end
 end

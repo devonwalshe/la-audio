@@ -13,4 +13,8 @@
 
       
   %body
-    = yield
+    .container-fluid.bgblue
+      =render :partial => "layouts/header", locals: {divider: true}
+    =yield
+    .container-fluid.bgblue
+      =render :partial => "layouts/footer"

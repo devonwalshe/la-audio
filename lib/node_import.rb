@@ -73,6 +73,10 @@ module NodeImport
     return nodes
   end
 
+  def get_author(file)
+    
+  end
+
   ### Ties it all together and saves the relevant objects to the database
   def unpack_and_process_zip(zip_file)
     Zip::File.open(zip_file) do |zipfile|
@@ -96,6 +100,7 @@ module NodeImport
       @nodes = get_nodes(filepaths)
       
       # Save nodes
+      # @recording is already in scope from controller
       # @recording = Recording.find(params[:id])
       @nodes.each do |tag|
         @tag = Tag.new
