@@ -1,6 +1,9 @@
-%h1 New Recording
-= form_for @recording, url: recordings_path, html: { multipart: true } do |form|
-  = form.select :author_id, Author.all.collect {|a| [a.name, a.id]}
-  = form.file_field :file
-  =submit_tag
-= link_to 'Back', recordings_path
+.container
+  %h1 New Recording
+  = form_for @recording, url: recordings_path, html: { multipart: true } do |form|
+    Author Name
+    %br
+    = form.select :author_id, Author.all.collect {|a| [a.name, a.id]}
+    = form.file_field :file
+    =submit_tag
+  = link_to 'Back', recordings_path

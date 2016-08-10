@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :timecodes
   resources :authors
   
-  ## Transcripts
+  ## Transcripts // Currently unused
   resources :transcripts
   
   ## Page for uploading tags for a recording
