@@ -12,20 +12,27 @@
           %p#notice= notice
           .t1-6em.tw600.tblue.center
             =@recording.name
+          
+          
+          / Recording section
           .t1-6em.top-twenty-margin.sans.lh1-5em.tw300
             /Temporarily disabled with no internet =link_to "Listen", @recording.file.url, :class=>"html5"
             
             %section{:id => "audio"}
-              %audio{:controls => "", :src => "/assets/beehive.mp3", :type => "audio/mpeg", :id=>"audioPlayer"}
+              %audio{:src => "/assets/beehive.mp3", :type => "audio/mpeg", :id=>"audioPlayer", :preload=>"auto"}
               %br
               .border#timecode
+          
+          / Timeline section
           .t1-6em.top-twenty-margin.sans.lh1-5em.tw300
             =render :partial => "timeline"
-              
+          
+          / Segment bubble section
           .top-twenty-margin.sans.lh1-5em.tw300
             -@recording.segments.sort_by(&:start_time).map{|s| s.name}.uniq.each do |segment|
               .segment-bubble.bgblue.twhite.tbold{:id => "#{segment.gsub(" ", "_").downcase}"}
                 =segment
+          
           / Add new recording metadata
           .top-fifty-margin
             %h3
@@ -34,34 +41,5 @@
             = link_to 'Edit', edit_recording_path(@recording)
             |
             = link_to 'Back', recordings_path
-/ %h1
-/   =@recording.name
-/
-/ %h2
-/   All Tags
-/ %p
-/   -@recording.tags.collect {|t| t.name}.join(", ")
-/ %h2
-/   =link_to "Listen", @recording.file.url, :class=>"html5"
-/ %section{:id => "audio"}
-/ %h2
-/   Segments
-/ %p
-/   -@recording.segments.each do |segment|
-/     %h4
-/       =segment.name
-/     %p
-/       Start Time:
-/       =segment.start_time
-/       | End Time:
-/       =segment.end_time
-/       | Tags:
-/     -segment.tags.each do |seg_tag|
-/       %p
-/         =seg_tag.name
-/         |
-/         =seg_tag.tag_type
-/
-      
 
 

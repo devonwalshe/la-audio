@@ -1,6 +1,10 @@
 // Recordings JS
 $( window ).load(function() {
   
+  audiojs.events.ready(function() {
+    var as = audiojs.createAll();
+  });
+  
   // Set up the global variables
   var segments = JSON.parse(gon.interview_segments);
   var interviewLength = gon.interview_length;
@@ -45,7 +49,15 @@ $( window ).load(function() {
   
   // Draws lines where the segments are in the timeline below the audio player
   function drawSegmentLines(){
+    // First step is to get the size of the div we are in
     
+    // Make sure this updates if the window changes
+    
+    // For each segment
+      
+      // convert its start time to the scale of the div we are in as pixel width
+    
+      // Then draw it with a distance from the left
   }
   
   // Secondly check which segment the current time corresponds to
