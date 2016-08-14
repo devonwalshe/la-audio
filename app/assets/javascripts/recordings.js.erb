@@ -1,6 +1,7 @@
 // Recordings JS
 $( window ).load(function() {
   
+  // Initialize audio player
   audiojs.events.ready(function() {
     var as = audiojs.createAll();
   });
@@ -13,6 +14,7 @@ $( window ).load(function() {
   // On time update, check which segment we're in and light up the bubble
   interview.ontimeupdate = function() {
     updateSegmentBubble();
+    drawTimelinePointer();
   };
 
   window.onresize = function(){
@@ -66,12 +68,12 @@ $( window ).load(function() {
     var timelineSize = getTimelineSize();
     
     // Get scale attr for timeline size
-    var scale_attr = parseFloat(interviewLength)/parseFloat(timelineSize);
+    var scaleAttr = parseFloat(interviewLength)/parseFloat(timelineSize);
     
     // For each segment
     for(i = 0; i < segments.length; i++){
       // convert its start time to the scale of the div we are in as pixel width
-      var pixelLocation = Math.round(parseFloat(segments[i].start_time) / scale_attr)
+      var pixelLocation = Math.round(parseFloat(segments[i]["start_time"]) / scaleAttr)
       
       // Create the div with the class and location we want
       var segmentTick = document.createElement('div');
@@ -84,10 +86,28 @@ $( window ).load(function() {
       $(".timeline-background").append(segmentTick);
     } 
     
-      
   }
+  
   // Initial draw of segment lines
   drawSegmentLines();
+  
+  
+  // Set up timeline pointer
+  function drawTimelinePointer(){
+    
+    // get the time
+    var currentTime = parseFloat(getTimeCode());
+    
+    // Get the middle bar size
+    var pointerBarWidth = $(".pointer-mid").width();
+    
+    // Get the scale attr
+    var scaleAttr = parseFloat(interview.duration)/parseFloat(pointerBarWidth);
+    
+    // move it to the appropriate pixel location
+    $(".timeline-pointer").css("left",Math.round(currentTime/scaleAttr)-10)
+    
+  }
   
 })
 

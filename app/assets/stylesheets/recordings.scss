@@ -42,3 +42,44 @@
   height:100%;
   width:3px;
 }
+
+.pointer-container{
+  display:block;
+  height:25px;
+  width:100%;
+}
+
+.pointer-left{
+  float:left;
+  height:100%;
+  width:1%;
+}
+
+.pointer-right{
+  float:left;
+  height:100%;
+  width:1%;
+}
+
+.pointer-mid{
+  float:left;
+  height:100%;
+  width:98%;
+}
+
+.pointer-background{
+  position:absolute;
+  height:100%;
+  width:100%;
+}
+
+.timeline-pointer {
+  margin-top:5px;
+  position:absolute;
+  left:-10px;
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid rgb(255,167,68);
+}
