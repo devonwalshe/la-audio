@@ -2,42 +2,51 @@
 $( window ).load(function() {
   
   // Set up the global variables
-  var segments = JSON.parse(gon.interview_segments)
-  var interviewLength = gon.interview_length
+  var segments = JSON.parse(gon.interview_segments);
+  var interviewLength = gon.interview_length;
   var interview = document.getElementById("audioPlayer");
   
-  // Assign an ontimeupdate event to the <audio> element, and execute a function if the current playback position has changed
+  // On time update, check which segment we're in and light up the bubble
   interview.ontimeupdate = function() {
-    updateSegmentBubble()
-    // checkSegment()
-    
+    updateSegmentBubble();
   };
 
+  // Get timecode from interview audio object
   function getTimeCode() {
   // Display the current position of the video in a <p> element with id="timecode"
     return interview.currentTime;
   }
   
+  // Gets the current time, iterates through all the segments, and finds the relevant bubble, then lights it up
   function updateSegmentBubble() {
-    currentTime = parseFloat(getTimeCode())
+    currentTime = parseFloat(getTimeCode());
     // console.log(current_time.toFixed(1))
     
+    // Iterate through segments to check if we are in a certain one
     for(i = 0; i < segments.length; i++){
-      startTime = parseFloat(segments[i]["start_time"])
-      endTime = parseFloat(segments[i]["end_time"])
+      startTime = parseFloat(segments[i]["start_time"]);
+      endTime = parseFloat(segments[i]["end_time"]);
       // console.log(startTime)
       // console.log(endTime)
       // console.log(currentTime)
+      
+      // Change segment bubbles colour if its in there
       if (currentTime >= startTime && currentTime <= endTime) {
-        console.log(segments[i])
-      }
+        $("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")).addClass("bgorange").removeClass("bgblue");
+      };
+      
+      if (currentTime <= startTime || currentTime >= endTime) {
+        // console.log(segments[i])
+        $("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")).addClass("bgblue").removeClass("bgorange");
+      };
       
     }
   }
-  updateSegmentBubble()
-  // Need to accomplish two things
-  // Firstly order all the segments and position them based on how the pixels maps to their location
   
+  // Draws lines where the segments are in the timeline below the audio player
+  function drawSegmentLines(){
+    
+  }
   
   // Secondly check which segment the current time corresponds to
   function checkSegment(){

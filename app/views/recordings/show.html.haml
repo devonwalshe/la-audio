@@ -24,8 +24,7 @@
               
           .top-twenty-margin.sans.lh1-5em.tw300
             -@recording.segments.sort_by(&:start_time).map{|s| s.name}.uniq.each do |segment|
-              .segment-bubble.bgblue.twhite.tbold
-                %div{:id => "#{segment}"}
+              .segment-bubble.bgblue.twhite.tbold{:id => "#{segment.gsub(" ", "_").downcase}"}
                 =segment
           / Add new recording metadata
           .top-fifty-margin
