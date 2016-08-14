@@ -19,7 +19,7 @@ class RecordingsController < ApplicationController
     #Fix this - currently only gets length from last start time to beginning
     @segments = Recording.find(params[:id]).segments.sort_by(&:start_time)
     gon.interview_segments = @segments.to_json
-    gon.interview_length = @segments.sort_by{|s| s.end_time.to_i}
+    gon.interview_length = @segments.sort_by{|s| s.end_time.to_i}.last.end_time
     
   end
 

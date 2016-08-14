@@ -15,6 +15,16 @@ $( window ).load(function() {
     updateSegmentBubble();
   };
 
+  window.onresize = function(){
+    drawSegmentLines();
+  };
+
+  // If window size changes get timeline middle window size
+  function getTimelineSize(){
+    
+    return $(".middle-bar").width()
+  };
+
   // Get timecode from interview audio object
   function getTimeCode() {
   // Display the current position of the video in a <p> element with id="timecode"
@@ -49,22 +59,35 @@ $( window ).load(function() {
   
   // Draws lines where the segments are in the timeline below the audio player
   function drawSegmentLines(){
-    // First step is to get the size of the div we are in
+    // Clear all divs
+    $(".timeline-background").empty()
     
-    // Make sure this updates if the window changes
+    // Then to get the size of the div we are in
+    var timelineSize = getTimelineSize();
+    
+    // Get scale attr for timeline size
+    var scale_attr = parseFloat(interviewLength)/parseFloat(timelineSize);
     
     // For each segment
-      
+    for(i = 0; i < segments.length; i++){
       // convert its start time to the scale of the div we are in as pixel width
+      var pixelLocation = Math.round(parseFloat(segments[i].start_time) / scale_attr)
+      
+      // Create the div with the class and location we want
+      var segmentTick = document.createElement('div');
+      var segmentTick = $(segmentTick).attr({
+        "class": "bgorange segment-tick",
+        "style": "left:" + pixelLocation + "px;"
+      });
+      
+      // Then draw it
+      $(".timeline-background").append(segmentTick);
+    } 
     
-      // Then draw it with a distance from the left
+      
   }
-  
-  // Secondly check which segment the current time corresponds to
-  function checkSegment(){
-    current_time = interview.currentTime;
-    
-  }
+  // Initial draw of segment lines
+  drawSegmentLines();
   
 })
 
