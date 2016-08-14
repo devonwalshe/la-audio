@@ -6,7 +6,7 @@ class Segment < ActiveRecord::Base
   
   has_one	:recording
   has_one :timecode, through:	:recording
-  has_many  :taggings, :as => :taggable
+  has_many  :taggings, :as => :taggable, dependent: :destroy
             
   has_many  :tags, :through => :taggings
   

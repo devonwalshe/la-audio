@@ -25,7 +25,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 
 ## House Gems ##
-
 gem 'paperclip'
 gem 'aws-sdk', '< 2.0'
 gem 'haml'
@@ -35,6 +34,7 @@ gem 'audio_waveform-ruby', :require => 'audio_waveform'
 gem "therubyracer"
 gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem "twitter-bootstrap-rails"
+gem "gon"
 
 ### For heroku
 gem 'rails_12factor'

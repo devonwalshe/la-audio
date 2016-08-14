@@ -16,12 +16,14 @@
             /Temporarily disabled with no internet =link_to "Listen", @recording.file.url, :class=>"html5"
             
             %section{:id => "audio"}
-              =link_to "Listen", "#{Rails.root}/public/01 Preaching.mp3", :class=>"recording_audio"
+              %audio{:controls => "", :src => "/assets/beehive.mp3", :type => "audio/mpeg", :id=>"audioPlayer"}
+              %br
+              .border#timecode
           .t1-6em.top-twenty-margin.sans.lh1-5em.tw300
             =render :partial => "timeline"
               
           .top-twenty-margin.sans.lh1-5em.tw300
-            -@recording.segments.map{|s| s.name}.uniq.sort.each do |segment|
+            -@recording.segments.sort_by(&:start_time).map{|s| s.name}.uniq.each do |segment|
               .segment-bubble.bgblue.twhite.tbold
                 %div{:id => "#{segment}"}
                 =segment

@@ -6,6 +6,24 @@
 
 module NodeImport
   
+  ## Convert segment start and end time to seconds delta from zero
+  def convert_segment_times(recording)
+    puts "converting segment times"
+    @segments = recording.segments
+    @last_segment_end = @segments.sort_by{|s| Time.strptime(s.end_time, "%M:%S.%N")}.last.end_time
+    @duration = Time.strptime(@last_segment_end, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
+    @segments.each do |segment|
+      segment_start_seconds = Time.strptime(segment.start_time, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
+      segment_end_seconds = Time.strptime(segment.end_time, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
+
+      segment.end_time = segment_end_seconds
+      segment.start_time = segment_start_seconds
+      
+      segment.save
+    end
+    puts "converting segment times successful"
+  end
+  
   ## Get the list of paths inside the directory
   def get_filepaths(target_dir)
     dirpaths = [target_dir + "/subnodes", target_dir + "/headnodes"]
@@ -121,11 +139,12 @@ module NodeImport
         
         ## Now do the tagging
         @tagging = Tagging.where(:taggable_id => @recording.id, :taggable_type => @recording.class.name, :tag_id => @tag.id).first_or_create
-
+        
         ## Now do the segments
         if tag[:segments]
           @segments = tag[:segments]
           @segments.each do |segment|
+            
             start_time = segment[:start_time]
             end_time = segment[:end_time]
             @segment = Segment.where(:recording_id => @recording.id, :start_time => start_time, :end_time => end_time, :name => @tag.name).first_or_create
@@ -138,5 +157,5 @@ module NodeImport
       end
     end
   end
-
+  
 end

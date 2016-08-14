@@ -1,0 +1,51 @@
+// Recordings JS
+$( window ).load(function() {
+  
+  // Set up the global variables
+  var segments = JSON.parse(gon.interview_segments)
+  var interviewLength = gon.interview_length
+  var interview = document.getElementById("audioPlayer");
+  
+  // Assign an ontimeupdate event to the <audio> element, and execute a function if the current playback position has changed
+  interview.ontimeupdate = function() {
+    updateSegmentBubble()
+    // checkSegment()
+    
+  };
+
+  function getTimeCode() {
+  // Display the current position of the video in a <p> element with id="timecode"
+    return interview.currentTime;
+  }
+  
+  function updateSegmentBubble() {
+    currentTime = parseFloat(getTimeCode())
+    // console.log(current_time.toFixed(1))
+    
+    for(i = 0; i < segments.length; i++){
+      startTime = parseFloat(segments[i]["start_time"])
+      endTime = parseFloat(segments[i]["end_time"])
+      // console.log(startTime)
+      // console.log(endTime)
+      // console.log(currentTime)
+      if (currentTime >= startTime && currentTime <= endTime) {
+        console.log(segments[i])
+      }
+      
+    }
+  }
+  updateSegmentBubble()
+  // Need to accomplish two things
+  // Firstly order all the segments and position them based on how the pixels maps to their location
+  
+  
+  // Secondly check which segment the current time corresponds to
+  function checkSegment(){
+    current_time = interview.currentTime;
+    
+  }
+  
+})
+
+
+  

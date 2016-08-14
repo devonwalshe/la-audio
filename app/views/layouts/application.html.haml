@@ -2,7 +2,7 @@
 %html
   %head
     %meta{content: "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
-    %title LaAudio
+    %title Life Academique
     / %link{:href=>'https://fonts.googleapis.com/css?family=Merriweather:400,900,700,300', :rel=>'stylesheet', :type=>'text/css'}
     = javascript_include_tag "https://use.typekit.net/ovm8nbq.js"
     = javascript_include_tag "jquery-2.1.1.min.js"
@@ -11,7 +11,7 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-
+    = Gon::Base.render_data
       
   %body
     .container-fluid.bgblue
@@ -19,3 +19,5 @@
     =yield
     .container-fluid.bgblue
       =render :partial => "layouts/footer"
+    .container
+      = debug(params) if Rails.env.development?
