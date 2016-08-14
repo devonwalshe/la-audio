@@ -19,9 +19,7 @@
             /Temporarily disabled with no internet =link_to "Listen", @recording.file.url, :class=>"html5"
             
             %section{:id => "audio"}
-              %audio{:src => "/assets/beehive.mp3", :type => "audio/mpeg", :id=>"audioPlayer", :preload=>"auto"}
-              %br
-              .border#timecode
+              =render :partial => "player"
           
           / Timeline section
           .t1-6em.top-twenty-margin.sans.lh1-5em.tw300

@@ -2,9 +2,9 @@
 $( window ).load(function() {
   
   // Initialize audio player
-  audiojs.events.ready(function() {
-    var as = audiojs.createAll();
-  });
+  // audiojs.events.ready(function() {
+  //   var as = audiojs.createAll();
+  // });
   
   // Set up the global variables
   var segments = JSON.parse(gon.interview_segments);
@@ -64,6 +64,14 @@ $( window ).load(function() {
     // Clear all divs
     $(".timeline-background").empty()
     
+    // Draw timeline bar
+    var timelineBar = document.createElement('div');
+    var timelineBar = $(timelineBar).attr({
+      "class": "timeline-bar",
+    });
+    
+    $(".timeline-background").append(timelineBar);
+    
     // Then to get the size of the div we are in
     var timelineSize = getTimelineSize();
     
@@ -109,7 +117,12 @@ $( window ).load(function() {
     
   }
   
-})
+  // Player functions
+  function playInterview(){
+    interview.play()
+  };
+  
+});
 
 
   

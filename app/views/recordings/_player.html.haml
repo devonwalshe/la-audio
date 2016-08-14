@@ -1,0 +1,33 @@
+%audio{:src => "/assets/interviewSC.mp3", :type => "audio/mpeg", :id=>"audioPlayer", :preload=>"auto", :controls=>""}
+
+.player-controls
+  .player-control-container
+    .player-small{:id=>"player-pause"}
+      %span.glyphicon.glyphicon-pause.twhite{"aria-hidden" => "true", :style=>"line-height:inherit!important;"}
+  .player-control-container
+    .player-small{:id=>"player-stop"}
+      %span.glyphicon.glyphicon-stop.twhite{"aria-hidden" => "true", :style=>"line-height:inherit!important;"}
+  .player-control-container
+    .player-small{:id=>"player-backward"}
+      %span.glyphicon.glyphicon-step-backward.twhite{"aria-hidden" => "true", :style=>"line-height:inherit!important;"}
+  .player-control-container
+    .player-large{:id=>"player-play", :onclick=>"playInterview()"}
+      %span.glyphicon.glyphicon-play.twhite{"aria-hidden" => "true", :style=>"line-height:inherit!important;"}
+  .player-control-container
+    .player-small{:id=>"player-forward"}
+      %span.glyphicon.glyphicon-step-forward.twhite{"aria-hidden" => "true", :style=>"line-height:inherit!important;"}
+  .player-control-container
+    .player-small{:id=>"player-mute"}
+      %span.glyphicon.glyphicon-volume-off.twhite{"aria-hidden" => "true", :style=>"line-height:inherit!important;"}
+  .player-control-container
+    .player-small{:id=>"player-loop"}
+      %span.glyphicon.glyphicon-retweet.twhite{"aria-hidden" => "true", :style=>"line-height:inherit!important;"}
+
+.player-scrubber
+
+  .player-scrubber-container
+    .player-scrubber-base
+    .player-scrubber-played
+
+.player-times
+  
