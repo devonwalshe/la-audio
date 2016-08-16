@@ -15,6 +15,8 @@ $( window ).load(function() {
   interview.ontimeupdate = function() {
     updateSegmentBubble();
     drawTimelinePointer();
+    updateScrubber();
+    updateElapsed();
   };
 
   window.onresize = function(){
@@ -96,10 +98,6 @@ $( window ).load(function() {
     
   }
   
-  // Initial draw of segment lines
-  drawSegmentLines();
-  
-  
   // Set up timeline pointer
   function drawTimelinePointer(){
     
@@ -117,12 +115,95 @@ $( window ).load(function() {
     
   }
   
-  // Player functions
-  function playInterview(){
-    interview.play()
+  function updateScrubber(){
+    
+    // get the time
+    var currentTime = parseFloat(getTimeCode());
+    
+    // Get the middle bar size
+    var scrubberBarWidth = $(".player-scrubber-container").width();
+    
+    // Get the scale attr
+    var scaleAttr = parseFloat(interview.duration)/parseFloat(scrubberBarWidth);
+
+    // move it to the appropriate pixel location
+    $(".player-scrubber-played").css("width",Math.round(currentTime/scaleAttr))
+    
   };
+  
+  function insertTotalTime(){
+
+    var minutes = Math.floor(interviewLength / 60);
+    var seconds = Math.round(interviewLength % 60);
+    
+
+    if(seconds < 10){
+      seconds = "0"+seconds
+    }
+    
+    $(".player-total").text(minutes + ":" + seconds)
+  }
+  
+  function updateElapsed() {
+    var currentTime = parseFloat(getTimeCode());
+    var minutes = Math.floor(currentTime / 60);
+    var seconds = Math.round(currentTime % 60);
+    
+    
+    if(seconds < 10){
+      seconds = "0"+seconds
+    }
+    if(minutes <10){
+      minutes = "0"+minutes
+    }
+    console.log(minutes);
+    console.log(seconds);
+    $(".player-elapsed").text(minutes + ":" + seconds)
+  };
+  
+  // Execute functions
+  insertTotalTime();
+  // Initial draw of segment lines
+  drawSegmentLines();
   
 });
 
+// Player functions
+function playInterview(){
+  var interview = document.getElementById("audioPlayer");
+  interview.play();
+};
 
+function pauseInterview(){
+  var interview = document.getElementById("audioPlayer");
+  interview.pause();
+};
+
+function stopInterview(){
+  var interview = document.getElementById("audioPlayer");
+  interview.pause();
+  interview.currentTime = 0;
+};
+
+function stepBackInterview(){
+  var interview = document.getElementById("audioPlayer");
+  currentTime = interview.currentTime;
+  interview.currentTime = 50;
+};
   
+function stepForwardInterview(){
+  var interview = document.getElementById("audioPlayer");
+  currentTime = interview.currentTime;
+  interview.currentTime = 30;
+};
+
+function muteInterview(){
+  var interview = document.getElementById("audioPlayer");
+  interview.mute;
+};
+
+function loopInterview(){
+  var interview = document.getElementById("audioPlayer");
+  interview.loop = true;
+};
+
