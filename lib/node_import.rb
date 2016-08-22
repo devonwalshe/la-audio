@@ -10,16 +10,19 @@ module NodeImport
   def convert_segment_times(recording)
     puts "converting segment times"
     @segments = recording.segments
-    @last_segment_end = @segments.sort_by{|s| Time.strptime(s.end_time, "%M:%S.%N")}.last.end_time
-    @duration = Time.strptime(@last_segment_end, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
-    @segments.each do |segment|
-      segment_start_seconds = Time.strptime(segment.start_time, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
-      segment_end_seconds = Time.strptime(segment.end_time, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
+    ### Check that they haven't already been converted
+    if @segments.first.start_time.match(/\d+\.\d+/) == nil
+      @last_segment_end = @segments.sort_by{|s| Time.strptime(s.end_time, "%M:%S.%N")}.last.end_time
+      @duration = Time.strptime(@last_segment_end, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
+      @segments.each do |segment|
+        segment_start_seconds = Time.strptime(segment.start_time, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
+        segment_end_seconds = Time.strptime(segment.end_time, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
 
-      segment.end_time = segment_end_seconds
-      segment.start_time = segment_start_seconds
+        segment.end_time = segment_end_seconds
+        segment.start_time = segment_start_seconds
       
-      segment.save
+        segment.save
+      end
     end
     puts "converting segment times successful"
   end
@@ -100,7 +103,7 @@ module NodeImport
     Zip::File.open(zip_file) do |zipfile|
       @zipfile = zipfile
       folder_name = Time.now.strftime('%Y_%m_%d-%H_%M_%S')
-      destination_dir = Rails.root.to_s + "/public/uploads/zips/" + "#{folder_name}"
+      destination_dir = Rails.root.to_s + "/tmp/uploads/zips/" + "#{folder_name}"
 
       # Save files in directory
       zipfile.each do |entry|

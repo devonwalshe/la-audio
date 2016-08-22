@@ -12,10 +12,10 @@ class Recording < ActiveRecord::Base
   ### Associations
   belongs_to :author
   has_one :timecode
-  has_many  :segments
-  has_one	:transcript
+  has_many  :segments, dependent: :destroy
+  has_one	:transcript, dependent: :destroy
   
-  has_many  :taggings, :as => :taggable
+  has_many  :taggings, :as => :taggable, dependent: :destroy
             
   has_many  :tags, :through => :taggings
   

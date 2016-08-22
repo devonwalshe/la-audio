@@ -14,12 +14,13 @@ class RecordingsController < ApplicationController
   # GET /recordings/1
   # GET /recordings/1.json
   def show
-
-    
-    #Fix this - currently only gets length from last start time to beginning
-    @segments = Recording.find(params[:id]).segments.sort_by(&:start_time)
-    gon.interview_segments = @segments.to_json
-    gon.interview_length = @segments.sort_by{|s| s.end_time.to_i}.last.end_time
+    @recording = Recording.find(params[:id])
+    if @recording.segments
+      #Fix this - currently only gets length from last start time to beginning
+      @segments = Recording.find(params[:id]).segments.sort_by(&:start_time)
+      gon.interview_segments = @segments.to_json
+      gon.interview_length = @segments.sort_by{|s| s.end_time.to_i}.last.end_time
+    end
     
   end
 
@@ -38,7 +39,7 @@ class RecordingsController < ApplicationController
     puts uploaded_zip
     ## Open uploaded zip and process - module in /lib/node_import.rb
     ## Saves everything as well
-    # unpack_and_process_zip(uploaded_zip)
+    unpack_and_process_zip(uploaded_zip)
     
     ### Convert segment times to seconds
     convert_segment_times(@recording)

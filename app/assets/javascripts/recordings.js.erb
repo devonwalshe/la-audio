@@ -11,6 +11,7 @@ $( window ).load(function() {
   var interviewLength = gon.interview_length;
   var interview = document.getElementById("audioPlayer");
   
+  
   // On time update, check which segment we're in and light up the bubble
   interview.ontimeupdate = function() {
     updateSegmentBubble();
@@ -156,8 +157,6 @@ $( window ).load(function() {
     if(minutes <10){
       minutes = "0"+minutes
     }
-    console.log(minutes);
-    console.log(seconds);
     $(".player-elapsed").text(minutes + ":" + seconds)
   };
   
