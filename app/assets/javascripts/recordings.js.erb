@@ -11,7 +11,7 @@ $( window ).load(function() {
   var interviewLength = gon.interview_length;
   var interview = document.getElementById("audioPlayer");
   
-  
+  console.log(segments);
   // On time update, check which segment we're in and light up the bubble
   interview.ontimeupdate = function() {
     updateSegmentBubble();

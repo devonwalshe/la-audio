@@ -11,7 +11,7 @@ module NodeImport
     puts "converting segment times"
     @segments = recording.segments
     ### Check that they haven't already been converted
-    if @segments.first.start_time.match(/\d+\.\d+/) == nil
+    if @segments.first.start_time.match(/\d+:\d+\.\d+/) != nil
       @last_segment_end = @segments.sort_by{|s| Time.strptime(s.end_time, "%M:%S.%N")}.last.end_time
       @duration = Time.strptime(@last_segment_end, "%M:%S.%N") - Time.strptime("00:00.0", "%M:%S.%N")
       @segments.each do |segment|
