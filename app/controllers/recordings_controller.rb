@@ -15,7 +15,7 @@ class RecordingsController < ApplicationController
   # GET /recordings/1.json
   def show
     @recording = Recording.find(params[:id])
-    if @recording.segments
+    unless @recording.segments.empty?
       #Fix this - currently only gets length from last start time to beginning
       @segments = Recording.find(params[:id]).segments.sort_by(&:start_time)
       gon.interview_segments = @segments.to_json

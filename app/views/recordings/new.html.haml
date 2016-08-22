@@ -1,8 +1,13 @@
 .container
   %h1 New Recording
   = form_for @recording, url: recordings_path, html: { multipart: true } do |form|
+    Recording Name
+    %br
+    = form.text_field :name
+    %br
     Author Name
     %br
+    
     = form.select :author_id, Author.all.collect {|a| [a.name, a.id]}
     = form.file_field :file
     =submit_tag
