@@ -13,7 +13,7 @@ class Recording < ActiveRecord::Base
   belongs_to :author
   has_one :timecode
   has_many  :segments, dependent: :destroy
-  has_one	:transcript, dependent: :destroy
+  has_one	:transcript
   
   has_many  :taggings, :as => :taggable, dependent: :destroy
             
