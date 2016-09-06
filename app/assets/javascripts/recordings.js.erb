@@ -5,164 +5,188 @@ ready = function() {
   // audiojs.events.ready(function() {
   //   var as = audiojs.createAll();
   // });
-  
-  // Set up the global variables
-  var segments = JSON.parse(gon.interview_segments);
-  var interviewLength = gon.interview_length;
   var interview = document.getElementById("audioPlayer");
   
-  // On time update, check which segment we're in and light up the bubble
-  interview.ontimeupdate = function() {
-    updateSegmentBubble();
-    drawTimelinePointer();
-    updateScrubber();
-    updateElapsed();
-  };
-
-  window.onresize = function(){
-    drawSegmentLines();
-  };
-
-  // If window size changes get timeline middle window size
-  function getTimelineSize(){
+  // Wait till everything is loaded to fire certain functions
+  interview.addEventListener('loadedmetadata', function() {
     
-    return $(".middle-bar").width()
-  };
-
-  // Get timecode from interview audio object
-  function getTimeCode() {
-  // Display the current position of the video in a <p> element with id="timecode"
-    return interview.currentTime;
-  }
+    // Set up the global variables
+    var segments = JSON.parse(gon.interview_segments);
+    var interview = document.getElementById("audioPlayer");
+    var interviewLength = gon.interview_length;
+    
+    // Scrubbing = sets the interview to play
+    $('#audioPlayer').bind('canplay', function() {
+      $('.player-scrubber-container').on('click', function(e){
+        
+        // Set the click location
+        var x = e.pageX - $('.player-scrubber-container').offset().left;
+      
+        // Get the bar width
+        var scrubberBarWidth = $('.player-scrubber-container').width();
+        
+        // Get the scale attr
+        var scaleAttr = parseFloat(interview.duration)/parseFloat(scrubberBarWidth);
   
-  // Gets the current time, iterates through all the segments, and finds the relevant bubble, then lights it up
-  function updateSegmentBubble() {
-    currentTime = parseFloat(getTimeCode());
-    // console.log(current_time.toFixed(1))
+        // move it to the appropriate pixel location
+        interview.currentTime = x * scaleAttr
     
-    // Iterate through segments to check if we are in a certain one
-    for(i = 0; i < segments.length; i++){
-      startTime = parseFloat(segments[i]["start_time"]);
-      endTime = parseFloat(segments[i]["end_time"]);
-      // console.log(startTime)
-      // console.log(endTime)
-      // console.log(currentTime)
-      
-      // Change segment bubbles colour if its in there
-      if (currentTime >= startTime && currentTime <= endTime) {
-        $("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")).addClass("bgorange").removeClass("bgblue");
-      };
-      
-      if (currentTime <= startTime || currentTime >= endTime) {
-        // console.log(segments[i])
-        $("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")).addClass("bgblue").removeClass("bgorange");
-      };
-      
-    }
-  }
-  
-  // Draws lines where the segments are in the timeline below the audio player
-  function drawSegmentLines(){
-    // Clear all divs
-    $(".timeline-background").empty()
-    
-    // Draw timeline bar
-    var timelineBar = document.createElement('div');
-    var timelineBar = $(timelineBar).attr({
-      "class": "timeline-bar",
+      });
     });
     
-    $(".timeline-background").append(timelineBar);
+    // Inserts total time on page load
+    function insertTotalTime(){
+
+      var minutes = Math.floor(interview.duration / 60);
+      var seconds = Math.round(interview.duration % 60);
     
-    // Then to get the size of the div we are in
-    var timelineSize = getTimelineSize();
+
+      if(seconds < 10){
+        seconds = "0"+seconds
+      }
     
-    // Get scale attr for timeline size
-    var scaleAttr = parseFloat(interviewLength)/parseFloat(timelineSize);
+      $(".player-total").text(minutes + ":" + seconds)
+    };
     
-    // For each segment
-    for(i = 0; i < segments.length; i++){
-      // convert its start time to the scale of the div we are in as pixel width
-      var pixelLocation = Math.round(parseFloat(segments[i]["start_time"]) / scaleAttr)
+    // On time update, check which segment we're in and light up the bubble
+    interview.ontimeupdate = function() {
+      updateSegmentBubble();
+      drawTimelinePointer();
+      updateScrubber();
+      updateElapsed();
+    };
+
+    window.onresize = function(){
+      drawSegmentLines();
+    };
+
+    // If window size changes get timeline middle window size
+    function getTimelineSize(){
+    
+      return $(".middle-bar").width()
+    };
+
+    // Get timecode from interview audio object
+    function getTimeCode() {
+    // Display the current position of the video in a <p> element with id="timecode"
+      return interview.currentTime;
+    }
+  
+    // Gets the current time, iterates through all the segments, and finds the relevant bubble, then lights it up
+    function updateSegmentBubble() {
+      currentTime = parseFloat(getTimeCode());
+      // console.log(current_time.toFixed(1))
+    
+      // Iterate through segments to check if we are in a certain one
+      for(i = 0; i < segments.length; i++){
+        startTime = parseFloat(segments[i]["start_time"]);
+        endTime = parseFloat(segments[i]["end_time"]);
       
-      // Create the div with the class and location we want
-      var segmentTick = document.createElement('div');
-      var segmentTick = $(segmentTick).attr({
-        "class": "bgorange segment-tick",
-        "style": "left:" + pixelLocation + "px;"
+        // Change segment bubbles colour if its in there
+        if (currentTime >= startTime && currentTime <= endTime) {
+          $("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")).addClass("bgorange").removeClass("bgblue");
+        };
+      
+        if (currentTime <= startTime || currentTime >= endTime) {
+          // console.log(segments[i])
+          $("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")).addClass("bgblue").removeClass("bgorange");
+        };
+      
+      }
+    }
+  
+    // Draws lines where the segments are in the timeline below the audio player
+    function drawSegmentLines(){
+      // Clear all divs
+      $(".timeline-background").empty()
+    
+      // Draw timeline bar
+      var timelineBar = document.createElement('div');
+      var timelineBar = $(timelineBar).attr({
+        "class": "timeline-bar",
       });
+    
+      $(".timeline-background").append(timelineBar);
+    
+      // Then to get the size of the div we are in
+      var timelineSize = getTimelineSize();
+    
+      // Get scale attr for timeline size
+      var scaleAttr = parseFloat(interviewLength)/parseFloat(timelineSize);
+    
+      // For each segment
+      for(i = 0; i < segments.length; i++){
+        // convert its start time to the scale of the div we are in as pixel width
+        var pixelLocation = Math.round(parseFloat(segments[i]["start_time"]) / scaleAttr)
       
-      // Then draw it
-      $(".timeline-background").append(segmentTick);
-    } 
+        // Create the div with the class and location we want
+        var segmentTick = document.createElement('div');
+        var segmentTick = $(segmentTick).attr({
+          "class": "bgorange segment-tick",
+          "style": "left:" + pixelLocation + "px;"
+        });
+      
+        // Then draw it
+        $(".timeline-background").append(segmentTick);
+      } 
     
-  }
-  
-  // Set up timeline pointer
-  function drawTimelinePointer(){
-    
-    // get the time
-    var currentTime = parseFloat(getTimeCode());
-    
-    // Get the middle bar size
-    var pointerBarWidth = $(".pointer-mid").width();
-    
-    // Get the scale attr
-    var scaleAttr = parseFloat(interview.duration)/parseFloat(pointerBarWidth);
-    
-    // move it to the appropriate pixel location
-    $(".timeline-pointer").css("left",Math.round(currentTime/scaleAttr)-10)
-    
-  }
-  
-  function updateScrubber(){
-    
-    // get the time
-    var currentTime = parseFloat(getTimeCode());
-    
-    // Get the middle bar size
-    var scrubberBarWidth = $(".player-scrubber-container").width();
-    
-    // Get the scale attr
-    var scaleAttr = parseFloat(interview.duration)/parseFloat(scrubberBarWidth);
-
-    // move it to the appropriate pixel location
-    $(".player-scrubber-played").css("width",Math.round(currentTime/scaleAttr))
-    
-  };
-  
-  function insertTotalTime(){
-
-    var minutes = Math.floor(interviewLength / 60);
-    var seconds = Math.round(interviewLength % 60);
-    
-
-    if(seconds < 10){
-      seconds = "0"+seconds
     }
-    
-    $(".player-total").text(minutes + ":" + seconds)
-  }
   
-  function updateElapsed() {
-    var currentTime = parseFloat(getTimeCode());
-    var minutes = Math.floor(currentTime / 60);
-    var seconds = Math.round(currentTime % 60);
+    // Set up timeline pointer
+    function drawTimelinePointer(){
     
+      // get the time
+      var currentTime = parseFloat(getTimeCode());
     
-    if(seconds < 10){
-      seconds = "0"+seconds
+      // Get the middle bar size
+      var pointerBarWidth = $(".pointer-mid").width();
+    
+      // Get the scale attr
+      var scaleAttr = parseFloat(interview.duration)/parseFloat(pointerBarWidth);
+    
+      // move it to the appropriate pixel location
+      $(".timeline-pointer").css("left",Math.round(currentTime/scaleAttr)-10)
+    
     }
-    if(minutes <10){
-      minutes = "0"+minutes
-    }
-    $(".player-elapsed").text(minutes + ":" + seconds)
-  };
   
-  // Execute functions
-  insertTotalTime();
-  // Initial draw of segment lines
-  drawSegmentLines();
+    function updateScrubber(){
+    
+      // get the time
+      var currentTime = parseFloat(getTimeCode());
+    
+      // Get the middle bar size
+      var scrubberBarWidth = $(".player-scrubber-container").width();
+    
+      // Get the scale attr
+      var scaleAttr = parseFloat(interview.duration)/parseFloat(scrubberBarWidth);
+
+      // move it to the appropriate pixel location
+      $(".player-scrubber-played").css("width",Math.round(currentTime/scaleAttr))
+    
+    };
+  
+    // Update elapsed time
+    function updateElapsed() {
+      var currentTime = parseFloat(getTimeCode());
+      var minutes = Math.floor(currentTime / 60);
+      var seconds = Math.round(currentTime % 60);
+    
+    
+      if(seconds < 10){
+        seconds = "0"+seconds
+      }
+      if(minutes <10){
+        minutes = "0"+minutes
+      }
+      $(".player-elapsed").text(minutes + ":" + seconds)
+    };
+  
+    // Execute functions
+    insertTotalTime();
+    // Initial draw of segment lines
+    drawSegmentLines();
+  
+  }); // End meta
   
 };
 
@@ -197,3 +221,11 @@ function loopInterview(){
 // Turbolinks workaround
 $(document).ready(ready)
 $(document).on('page:load', ready)
+
+// ### Scrubber mover
+
+// $('.player-scrubber-container').on( 'click', function( e ) {
+//     var x = e.pageX - this.offsetLeft;
+//     var y = e.pageY - this.offsetTop;
+//     console.log("x = " + x + " y = " + y);
+// });​
