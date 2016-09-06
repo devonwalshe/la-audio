@@ -1,5 +1,5 @@
 // Recordings JS
-$( window ).load(function() {
+ready = function() {
   
   // Initialize audio player
   // audiojs.events.ready(function() {
@@ -11,7 +11,6 @@ $( window ).load(function() {
   var interviewLength = gon.interview_length;
   var interview = document.getElementById("audioPlayer");
   
-  console.log(segments);
   // On time update, check which segment we're in and light up the bubble
   interview.ontimeupdate = function() {
     updateSegmentBubble();
@@ -165,7 +164,7 @@ $( window ).load(function() {
   // Initial draw of segment lines
   drawSegmentLines();
   
-});
+};
 
 // Player functions
 function playInterview(){
@@ -184,17 +183,6 @@ function stopInterview(){
   interview.currentTime = 0;
 };
 
-function stepBackInterview(){
-  var interview = document.getElementById("audioPlayer");
-  currentTime = interview.currentTime;
-  interview.currentTime = 50;
-};
-  
-function stepForwardInterview(){
-  var interview = document.getElementById("audioPlayer");
-  currentTime = interview.currentTime;
-  interview.currentTime = 30;
-};
 
 function muteInterview(){
   var interview = document.getElementById("audioPlayer");
@@ -206,3 +194,6 @@ function loopInterview(){
   interview.loop = true;
 };
 
+// Turbolinks workaround
+$(document).ready(ready)
+$(document).on('page:load', ready)

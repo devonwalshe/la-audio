@@ -1,53 +1,55 @@
-%p#notice= notice
+
 .container-fluid.bglightgrey.tgrey
+  %p#notice= notice
   .row
     .container
-      .col-md-1
-      .col-md-9.bottom-twenty-margin
-        .t6em.tw700.adelle.top-fifty-margin
-          =@author.name
-        .t1-6em.tw500.top-twenty-margin
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua.
-        .top-twenty-margin
-          .row.no-gutter
-            .col-md-12.top-twenty-margin{:class=>["bgblue", "bgpeach", "bgseafoam"].sample}
-              .row
-                .col-md-4
-                  =image_tag "authors/author1.png", :class=>"author-image"
-                .col-md-8
-                  .left-ten-margin
-                    .y60px
-                    =link_to @author.name, @author, :class=>"lwhite tw800 t1-6em adelle tunderline"
-                    .titalic.top-twenty-margin.twhite
-                      =@author.job_title
+      .row
+        .col-md-1
+        .col-md-9.bottom-twenty-margin
+          .t6em.tw700.adelle.top-fifty-margin
+            =@author.name
+          / .t1-6em.tw500.top-twenty-margin
+          .top-twenty-margin
+            .row.no-gutter
+              .col-md-12.top-twenty-margin{:class=>["bgblue", "bgpeach", "bgseafoam"].sample}
+                .row
+                  .col-md-4
+                    =image_tag "authors/author1.png", :class=>"author-image"
+                  .col-md-8
+                    .left-ten-margin
+                      .y60px
+                      =link_to @author.name, @author, :class=>"lwhite tw800 t1-6em adelle tunderline"
+                      .titalic.top-twenty-margin.twhite
+                        =@author.job_title
         
-          .row
-            .col-md-12.top-twenty-margin
-              .top-bottom-twenty-margin.t1-4em.tbold
-                BIO
-              .top-bottom-twenty-margin.t1-4em.lh1-3em
-                =@author.bio_text
+            .row
+              .col-md-12.top-twenty-margin
+                .top-bottom-twenty-margin.t1-4em.tbold
+                  Biography
+                .top-bottom-twenty-margin.t1-4em.lh1-3em
+                  =@author.bio_text.html_safe
  
-          .row
-            .col-md-12.top-twenty-margin
-              .t6em.tw700.adelle.top-fifty-margin
-                Podcasts
-              .top-bottom-twenty-margin
-              -if @author.recordings
-                - @author.recordings.each do |recording|
-                  .col-md-3
-              
-                    / Todo - make three different row types w/ partials if i recording is between multiples of 1 to 3
-                    =link_to recording, :class=>"lwhite" do 
-                      .recording-box.bgblack
-                        .box-upper
-                          .mic
-                        %br
-                        .box-lower
-                          -if recording.name
-                            .adelle.tw800.t1-6em.box-title
-                              =recording.name
-                          -else
-                            .adelle.tw800.t1-6em.box-title
-                              Untitled recording
+            .row
+              .col-md-12.top-twenty-margin
+                .t6em.tw700.adelle
+                  Podcasts
+                .top-bottom-twenty-margin
+                -if @author.recordings != []
+                  - @author.recordings.each do |recording|
+                    .col-md-3
+                      / Todo - make three different row types w/ partials if i recording is between multiples of 1 to 3
+                      =link_to recording, :class=>"lwhite" do 
+                        .recording-box.bgblack.bottom-ten-margin
+                          .box-upper
+                            .mic
+                          %br
+                          .box-lower
+                            -if recording.name
+                              .adelle.tw800.t1-6em.box-title
+                                =recording.name
+                            -else
+                              .adelle.tw800.t1-6em.box-title
+                                Untitled recording
+                -else
+                  No podcasts to show
+                    

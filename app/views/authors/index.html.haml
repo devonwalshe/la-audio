@@ -3,11 +3,18 @@
     .container
       .col-md-1
       .col-md-9.bottom-twenty-margin
-        .t6em.tw700.adelle.top-fifty-margin
-          Authors
-        .t1-6em.tw500.top-fifty-margin
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua.
+        .t4em.tw700.adelle.top-fifty-margin
+          Let us introduce you…
+        .t1-4em.tw400.top-fifty-margin
+
+          …to the women academics who have shared their career stories with <i>Life Academique</i>. Hear about their experience as researchers, teachers and leaders, as working parents and as women in a still very male-dominated world. 
+          Click on the podcasts below to hear their stories. 
+          %br
+          %br
+          If you’d like to search for information on a specific topic instead, you can do so 
+          %span>=link_to " here", "/recordings", :class=>"lgrey"
+          \.
+          
         .top-fifty-margin
           -if @authors
             - @authors.each do |author|

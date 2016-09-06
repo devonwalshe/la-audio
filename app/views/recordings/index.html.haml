@@ -18,24 +18,26 @@
   .row
     .container
       .row.top-fifty-margin
-        -if @recordings
-          - @recordings.each do |recording|
-            .col-md-3
+        .col-md-1
+        .col-md-9
+          -if @recordings
+            - @recordings.each do |recording|
+              .col-md-3
               
-              / Todo - make three different row types w/ partials if i recording is between multiples of 1 to 3
-              =link_to recording, :class=>"lwhite" do 
-                .recording-box.bgblack
-                  .box-upper
-                    .mic
-                  %br
-                  .box-lower
-                    -if recording.name
-                      .adelle.tw800.t1-6em.box-title
-                        =recording.name
-                    -else
-                      .adelle.tw800.t1-6em.box-title
-                        Untitled recording
-      .row.top-hundred-margin 
+                / Todo - make three different row types w/ partials if i recording is between multiples of 1 to 3
+                =link_to recording, :class=>"lwhite" do 
+                  .recording-box.bgblack.bottom-ten-margin
+                    .box-upper
+                      .mic
+                    %br
+                    .box-lower
+                      -if recording.name
+                        .adelle.tw800.t1-6em.box-title
+                          =recording.name
+                      -else
+                        .adelle.tw800.t1-6em.box-title
+                          Untitled recording
+        .row.top-hundred-margin 
 .container-fluid.bgblack
   =render :partial => "layouts/footer"
             

@@ -156,7 +156,10 @@ module NodeImport
             @tagging = Tagging.where(:taggable_id=> @segment.id, :taggable_type=> @segment.class.name, :tag_id => @tag.id).first_or_create
           end
         end
+        ### Now save the recording to ensure that its got cached tags
+        @recording.save
         
+        ### All done
       end
     end
   end
