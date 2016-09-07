@@ -34,6 +34,25 @@ ready = function() {
       });
     });
     
+    // Segment bar scrubbing
+    $('#audioPlayer').bind('canplay', function() {
+      $('.middle-bar').on('click', function(e){
+        
+        // Set the click location
+        var x = e.pageX - $('.middle-bar').offset().left;
+      
+        // Get the bar width
+        var middleBarWidth = $('.middle-bar').width();
+        
+        // Get the scale attr
+        var scaleAttr = parseFloat(interview.duration)/parseFloat(middleBarWidth);
+  
+        // move it to the appropriate pixel location
+        interview.currentTime = x * scaleAttr
+    
+      });
+    });
+    
     // Inserts total time on page load
     function insertTotalTime(){
 
