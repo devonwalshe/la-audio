@@ -157,11 +157,12 @@ module NodeImport
           end
         end
         ### Now save the recording to ensure that its got cached tags
-        @recording.save
+        
         
         ### All done
       end
     end
+    @recording.save
   end
   
 end
