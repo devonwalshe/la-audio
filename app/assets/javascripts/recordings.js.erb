@@ -116,6 +116,7 @@ ready = function() {
   
     // Draws lines where the segments are in the timeline below the audio player
     function drawSegmentLines(){
+      
       // Clear all divs
       $(".timeline-background").empty()
     
@@ -225,7 +226,6 @@ function stopInterview(){
   interview.pause();
   interview.currentTime = 0;
 };
-
 
 function muteInterview(){
   var interview = document.getElementById("audioPlayer");

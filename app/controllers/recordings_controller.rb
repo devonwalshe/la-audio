@@ -102,4 +102,6 @@ class RecordingsController < ApplicationController
     def recording_params
       params[:recording].permit(:file, :bio_text, :name, :job_title, :job_description, :author_id)
     end
+    
+
 end

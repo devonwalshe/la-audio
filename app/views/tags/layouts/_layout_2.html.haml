@@ -1,0 +1,43 @@
+.row
+  -if topics[:tags][0]
+    .col-md-3
+      =link_to "/search/?q=#{topics[:tags][0].name}", :class=>"lwhite" do
+        .recording-box{:class=>["bgblue", "bgpeach", "bgseafoam", "bgblack", "bgdarkgrey"].sample}
+          .box-upper
+            .mic
+          %br
+          .box-lower
+            -if topics[:tags][0].name
+              .adelle.tw800.t1-6em.box-title
+                =topics[:tags][0].name
+            -else
+              .adelle.tw800.t1-6em.box-title
+                Untitled recording
+  -if topics[:tags][1]
+    .col-md-3
+      =link_to "/search/?q=#{topics[:tags][1].name}", :class=>"lwhite" do
+        .recording-box{:class=>["bgblue", "bgpeach", "bgseafoam", "bgblack", "bgdarkgrey"].sample}
+          .box-upper
+            .mic
+          %br
+          .box-lower
+            -if topics[:tags][1].name
+              .adelle.tw800.t1-6em.box-title
+                =topics[:tags][1].name
+            -else
+              .adelle.tw800.t1-6em.box-title
+                Untitled recording
+  -if topics[:tags][2]
+    .col-md-6
+      =link_to "/search/?q=#{topics[:tags][2].name}", :class=>"lwhite" do
+        .recording-box{:class=>["bgblue", "bgpeach", "bgseafoam", "bgblack", "bgdarkgrey"].sample}
+          .box-upper
+            .mic
+          %br
+          .box-lower
+            -if topics[:tags][2].name
+              .adelle.tw800.t1-6em.box-title
+                =topics[:tags][2].name
+            -else
+              .adelle.tw800.t1-6em.box-title
+                Untitled recording

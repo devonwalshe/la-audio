@@ -1,7 +1,7 @@
 .col-md-3
   -result = result.searchable
   =link_to "/recordings/#{result.id}", :class=>"lwhite" do
-    .results-box.bgblack
+    .results-box{:class=>["bgblue", "bgpeach", "bgseafoam", "bgblack", "bgdarkgrey"].sample}
       .results-box-upper.adelle.tw800
         Recording
       %br

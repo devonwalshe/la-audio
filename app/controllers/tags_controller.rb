@@ -5,6 +5,9 @@ class TagsController < ApplicationController
   # GET /tags.json
   def index
     @tags = Tag.all
+    @topics = Tag.all.order(:name).uniq
+    @topic_rows = randomize_layout(@topics)
+    
   end
 
   # GET /tags/1
@@ -71,4 +74,46 @@ class TagsController < ApplicationController
     def tag_params
       params.require(:tag).permit(:name, :type)
     end
+    
+    ## Creates a shuffled view
+    ## define items per row and how many layouts
+    ## NOTE - last layout has less items than the rest of the rows
+    def randomize_layout(tags)
+      
+      # How many layouts do we have? How many per row?
+      n_layouts = 4
+      n_per_row = 3
+      
+      # initlize layout groups
+      layout_styles = []
+      
+      # initialize groups
+      tag_rows = {}
+      
+      # Set up full layout groups
+      n_full_groups = tags.each_slice(n_per_row).count/n_layouts
+      n_full_groups.times do |i|
+        layout_styles << ((1..n_layouts-1).to_a.sample(n_layouts-1) << rand(1..n_layouts-1)).flatten
+      end
+      
+      ### Add odd remainder layout if the last one isn't full
+      if tags.each_slice(n_per_row).count%n_layouts != 0
+        # one with the remainder
+        n_remainder = tags.each_slice(n_per_row).count % n_layouts
+        layout_styles << [n_layouts]
+      end
+      
+      # flatten layout styles
+      layout_styles = layout_styles.flatten(1)
+      
+      #Get tags into groups
+      tags.each_slice(3).to_a.each_with_index do |tg, i|
+        tag_rows["tag_row_#{i+1}"] = {:style => "layout_#{layout_styles[i]}", :tags => tg}
+      end
+      
+      # Return
+      return tag_rows
+      
+    end
+      
 end
