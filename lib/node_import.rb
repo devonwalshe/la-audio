@@ -46,42 +46,38 @@ module NodeImport
     head_nodes_file.each do | line, i |
       lines_array << line
     end
-    if /(\\\\)(.*)(\\)(.*)$/.match(head_nodes_file[0]) == nil
-      node_type = "head"
-    else
-      node_type = "child"
-    end
-  
+    
+    # if /(\\)(.*)(\\)(.*)$/.match(head_nodes_file[0]) == nil
+    #   node_type = "head"
+    # else
+    #   node_type = "child"
+    # end
+    
     ## get relevant nodes based on what type it is
-    if node_type == "head"
-      head_nodes_file[0] == nil ? head_node = nil : head_node = /(\\\\)(.*)/.match(head_nodes_file[0])[2].strip()
-      child_node = nil
-    elsif node_type == "child"
-      head_nodes_file[0] == nil ? head_node = nil : head_node = /(\\\\)(.*)(\\)(.*)$/.match(head_nodes_file[0])[2].strip()
-      head_nodes_file[0] == nil ? child_node = nil : child_node = /(\\\\)(.*)(\\)(.*)$/.match(head_nodes_file[0])[4].strip()
-    end
+    head_nodes_file[0] == nil ? node = nil : node = /(Name: )(.*)/.match(head_nodes_file[0])[2].strip()
   
     ## get file name and reference number from line 2
     head_nodes_file[2] == nil ? references = nil : references = /(§ )(\d)/.match(head_nodes_file[2])[2].to_i
+    
     ## Get all references from in 3 line blocks
     ref_array = []
-  
+    
     ### get the segment times from each reference
     if references != nil
       references.times do |i|
         ref = i+1
         seg_line = 6+(i*4)
         # puts seg_line
-        start_time =  /(\[)(\d+:\d+,\d)/.match(head_nodes_file[seg_line])[2].gsub(",", ".")
-        end_time = /(\d+:\d+,\d)(\])/.match(head_nodes_file[seg_line])[1].gsub(",", ".")
+        start_time =  /(\[)(\d+:\d+.\d)/.match(head_nodes_file[seg_line])[2]
+        end_time = /(\d+:\d+.\d)(\])/.match(head_nodes_file[seg_line])[1]
         ref_array << {"start_time": start_time, "end_time": end_time}
       end
     else
       ref_array = nil
     end
   
-    return {"filename": /^(.+)\/([^\/]+)$/.match(filepath)[2], "head_node": head_node, "child_node": child_node, "segments": ref_array}
-  
+    return {"filename": /^(.+)\/([^\/]+)$/.match(filepath)[2], "node": node, "segments": ref_array}
+    
   end
   
   ## Get all nodes from the supplied filepaths
@@ -118,6 +114,7 @@ module NodeImport
       # Get nodes from files
       target_dir = File.join(destination_dir, "nodes")
       filepaths = get_filepaths(target_dir)
+
       @nodes = get_nodes(filepaths)
       
       # Save nodes
@@ -127,19 +124,10 @@ module NodeImport
         @tag = Tag.new
         @tagging = Tagging.new
         
-        ## First Create the tags
-        if tag[:child_node] == nil
-          ## Its a parent tag
-          @tag.name = tag[:head_node]
-          @tag = Tag.where(:name => @tag.name, :tag_type => "parent_tag").first_or_create
-          
-        else
-          parent_tag_name = tag[:head_node]
-          @parent = Tag.where(:name => parent_tag_name, :tag_type => "parent_tag").first_or_create
-          @tag.name = tag[:child_node]
-          @tag = Tag.where(:name => @tag.name, :tag_type => "child_tag", :parent_id => @parent.id).first_or_create
-        end
-        
+        ### Set up the tag
+        @tag.name = tag[:node]
+        @tag = Tag.where(:name => @tag.name).first_or_create
+
         ## Now do the tagging
         @tagging = Tagging.where(:taggable_id => @recording.id, :taggable_type => @recording.class.name, :tag_id => @tag.id).first_or_create
         
@@ -147,22 +135,23 @@ module NodeImport
         if tag[:segments]
           @segments = tag[:segments]
           @segments.each do |segment|
-            
+              
             start_time = segment[:start_time]
             end_time = segment[:end_time]
+
             @segment = Segment.where(:recording_id => @recording.id, :start_time => start_time, :end_time => end_time, :name => @tag.name).first_or_create
           
             ## Tagging for segment
             @tagging = Tagging.where(:taggable_id=> @segment.id, :taggable_type=> @segment.class.name, :tag_id => @tag.id).first_or_create
           end
+          
         end
-        ### Now save the recording to ensure that its got cached tags
-        
-        
-        ### All done
       end
     end
+
+    ### Now save the recording to ensure that its got cached tags
     @recording.save
+    ### All done
   end
   
 end
