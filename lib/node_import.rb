@@ -62,11 +62,14 @@ module NodeImport
     ## Get all references from in 3 line blocks
     ref_array = []
     
+    
     ### get the segment times from each reference
     if references != nil
       references.times do |i|
-        ref = i+1
+        # ref = i+1
         seg_line = 6+(i*4)
+        # puts head_nodes_file[seg_line]
+        # puts /(\[)(\d+:\d+.\d)/.match(head_nodes_file[seg_line])[2])
         # puts seg_line
         start_time =  /(\[)(\d+:\d+.\d)/.match(head_nodes_file[seg_line])[2]
         end_time = /(\d+:\d+.\d)(\])/.match(head_nodes_file[seg_line])[1]
@@ -85,7 +88,9 @@ module NodeImport
     nodes = []
     filepaths.each do |filepath|
       node = get_node_from_file(filepath)
-      nodes << node
+      if node["segments"] != nil
+        nodes << node
+      end
     end
     return nodes
   end

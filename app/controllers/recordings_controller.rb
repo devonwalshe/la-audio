@@ -16,9 +16,11 @@ class RecordingsController < ApplicationController
   def show
     @recording = Recording.find(params[:id])
 
-
-    ### Also fix segments with nil value for name. 
+    ### TODO if params send in a specific topic - start from the first segment with that name
     
+    
+    
+    ### Also fix segments with nil value for name. 
     unless @recording.segments.empty?
       #Fix this - currently only gets length from last start time to beginning
       @segments = Recording.find(params[:id]).segments.sort_by(&:start_time)

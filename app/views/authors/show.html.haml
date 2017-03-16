@@ -6,7 +6,7 @@
       .row
         .col-md-1
         .col-md-9
-          .t6em.tw700.adelle.top-twenty-margin
+          .t5em.tw700.adelle.top-twenty-margin
             =@author.name + "'s story"
           / .t1-6em.tw500.top-twenty-margin
           .top-twenty-margin
@@ -14,7 +14,7 @@
               .col-md-12{:class=>["bgblue", "bgpeach", "bgseafoam", "bgblack", "bgdarkgrey"].sample}
                 .row
                   .col-md-4
-                    =link_to "/search/?q=#{@author.name}"  do
+                    =link_to @author.recordings.first  do
                       .author-listen
                         .author-play-container.bgblue
                           .author-play

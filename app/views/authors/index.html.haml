@@ -11,9 +11,9 @@
           
         .top-fifty-margin
           -if @authors
-            - @authors.each do |author|
+            - @authors.each_with_index do |author, i|
               .row.no-gutter
-                .col-md-12.top-twenty-margin{:class=>["bgblue", "bgpeach", "bgseafoam"].sample}
+                .col-md-12.top-twenty-margin{:class=>@bg[i]}
                   .row
                     .col-md-4
                       =image_tag "authors/author1.png", :class=>"author-image"
