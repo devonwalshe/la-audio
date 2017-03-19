@@ -16,9 +16,10 @@
       .row.top-twenty-margin
         .col-md-1
         .col-md-10
-          -@topic_rows.each do |name, topics|
+          -@bg = bg_colour_list(@topics.count, black=true, rows_split=true)
+          -@topic_rows.each_with_index do |topic_row, ii|
             .bottom-ten-margin
-            =render partial: "tags/layouts/#{topics[:style]}", locals: {topics: topics}
+            =render partial: "tags/layouts/#{topic_row[1][:style]}", locals: {topics: topic_row[1], colours: @bg[ii]}
         .col-md-1
 
         

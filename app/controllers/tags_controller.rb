@@ -7,6 +7,7 @@ class TagsController < ApplicationController
     @tags = Tag.all
     @topics = Tag.all.order(:name).uniq
     @topic_rows = randomize_layout(@topics)
+
     
   end
 
@@ -99,7 +100,7 @@ class TagsController < ApplicationController
       ### Add odd remainder layout if the last one isn't full
       if tags.each_slice(n_per_row).count%n_layouts != 0
         # one with the remainder
-        n_remainder = tags.each_slice(n_per_row).count % n_layouts
+        # n_remainder = tags.each_slice(n_per_row).count % n_layouts
         layout_styles << [n_layouts]
       end
       

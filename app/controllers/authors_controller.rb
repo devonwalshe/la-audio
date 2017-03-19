@@ -5,7 +5,6 @@ class AuthorsController < ApplicationController
   # GET /authors.json
   def index
     @authors = Author.all
-    @bg = bg_colour_list(@authors.count)
   end
 
   # GET /authors/1
@@ -72,19 +71,6 @@ class AuthorsController < ApplicationController
     def author_params
       params.require(:author).permit(:image_url, :bio_text, :name, :job_title, :job_description)
     end
-    
-    def bg_colour_list(n)
-      colours = ["bgblue", "bgpeach", "bgseafoam"]
+
       
-      if n > colours.count
-        while colours.count < n
-          colours = colours + colours
-        end
-        colours = colours[0..n-1]
-      else
-        colours[0..n]
-      end
-      
-      
-    end
 end

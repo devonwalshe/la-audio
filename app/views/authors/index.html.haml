@@ -11,6 +11,7 @@
           
         .top-fifty-margin
           -if @authors
+            - @bg = bg_colour_list(@authors.count, black=false)
             - @authors.each_with_index do |author, i|
               .row.no-gutter
                 .col-md-12.top-twenty-margin{:class=>@bg[i]}
