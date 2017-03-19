@@ -17,8 +17,9 @@ class RecordingsController < ApplicationController
     @recording = Recording.find(params[:id])
 
     ### TODO if params send in a specific topic - start from the first segment with that name
-    
-    
+    if params.include? "topic"
+      @start_time = get_start_time_from_segments(@recording, params[:topic])
+    end
     
     ### Also fix segments with nil value for name. 
     unless @recording.segments.empty?
@@ -109,5 +110,8 @@ class RecordingsController < ApplicationController
       params[:recording].permit(:file, :bio_text, :name, :job_title, :job_description, :author_id)
     end
     
+    def get_start_time_from_segments(recording, topic)
+      return(recording.segments.where(name: topic).order("start_time ASC").first.start_time)
+    end
 
 end

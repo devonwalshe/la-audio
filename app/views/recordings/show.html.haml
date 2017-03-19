@@ -1,3 +1,10 @@
+-if @start_time
+  .local-data{:style=>"display:none", :"data-start-time"=>@start_time}
+-else
+  .local-data{:style=>"display:none", :data-start-time=>"0.00"}
+  
+
+
 .container-fluid.bglightgrey.tgrey
   .recording-image
     =image_tag "authors/author1.png", :class=>"author-image"
@@ -16,8 +23,6 @@
           
           / Recording section
           .t1-6em.top-twenty-margin.sans.lh1-5em.tw300
-            
-            
             %section{:id => "audio"}
               =render :partial => "player"
           

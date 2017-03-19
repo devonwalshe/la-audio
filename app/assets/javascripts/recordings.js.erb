@@ -14,7 +14,11 @@ ready = function() {
     var segments = JSON.parse(gon.interview_segments);
     var interview = document.getElementById("audioPlayer");
     var interviewLength = gon.interview_length;
-    
+    var startTime = document.getElementsByClassName('local-data')[0].getAttribute("data-start-time")
+		
+		// Sets the start time
+		interview.currentTime = parseFloat(startTime)
+		
     // Scrubbing = sets the interview to play
     $('#audioPlayer').bind('canplay', function() {
       $('.player-scrubber-container').on('click', function(e){
@@ -98,21 +102,30 @@ ready = function() {
       // console.log(current_time.toFixed(1))
     
       // Iterate through segments to check if we are in a certain one
-      for(i = 0; i < segments.length; i++){
+      var active_segments = [];
+			for(i = 0; i < segments.length; i++){
         startTime = parseFloat(segments[i]["start_time"]);
         endTime = parseFloat(segments[i]["end_time"]);
       
-        // Change segment bubbles colour if its in there
-        if (currentTime >= startTime && currentTime <= endTime) {
-          $("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")).addClass("bgorange").removeClass("bgblue");
-        };
-      
+				// Turn off non-active segments
         if (currentTime <= startTime || currentTime >= endTime) {
           // console.log(segments[i])
           $("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")).addClass("bgblue").removeClass("bgorange");
         };
+				
+        // Select active segments
+        if (currentTime >= startTime && currentTime <= endTime) {
+          // console.log(segments[i])
+					active_segments.push($("div#"+segments[i]["name"].toLowerCase().replace(/\s/g, "_")));
+        };
       
-      }
+      };
+			
+			// Light up active segments
+			for(i=0; i< active_segments.length; i++){
+				active_segments[i].addClass("bgorange").removeClass("bgblue")
+				
+			};
     }
   
     // Draws lines where the segments are in the timeline below the audio player
@@ -171,7 +184,6 @@ ready = function() {
     }
   
     function updateScrubber(){
-    
       // get the time
       var currentTime = parseFloat(getTimeCode());
     
@@ -196,7 +208,7 @@ ready = function() {
       if(seconds < 10){
         seconds = "0"+seconds
       }
-      if(minutes <10){
+      if(minutes < 10){
         minutes = "0"+minutes
       }
       $(".player-elapsed").text(minutes + ":" + seconds)
