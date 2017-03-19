@@ -40,5 +40,8 @@ task :remove_unused_tags => :environment do
     ### remove the tag
     Tag.where(name: unused_tags).destroy_all
   end
+  @recordings.each do |r|
+    r.save
+  end
   
 end
