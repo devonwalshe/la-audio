@@ -16,3 +16,6 @@
 !/log/.keep
 /tmp
 /public/uploads/zips/
+
+config/database.yml
+config/secrets.yml
